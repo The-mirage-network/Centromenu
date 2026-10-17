@@ -14,7 +14,7 @@ Please note that this mod menu is for host only or maybe just to have fun with y
 # NOTICE
 
 > [!IMPORTANT]
-> We as the developers who participated in this project are not responsible for any damages that have affected your Innersloth LLC among us account in any way.
+> We as the developers who participated in this project are not responsible for any damages that have affected your Innersloth LLC among us account in any way. This is the only official source of Centromenu.
 
 
 
