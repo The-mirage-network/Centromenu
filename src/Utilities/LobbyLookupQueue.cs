@@ -6,10 +6,10 @@ using UnityEngine;
 
 namespace Centromenu;
 
-/// <summary>
-/// Serializes history lookups so opening a tab cannot send a burst of requests
-/// to the matchmaker. Both History and Votekick share this queue.
-/// </summary>
+
+
+
+
 public static class LobbyLookupQueue
 {
     private const float RequestTimeoutSeconds = 20f;
@@ -28,9 +28,9 @@ public static class LobbyLookupQueue
 
     public static void EnqueueAll()
     {
-        // CoFindGameInfoFromCode uses the same matchmaker state as the live
-        // connection. Running it from the History/Votekick UI while connected
-        // can display a stale-code error and stall every player in the lobby.
+
+
+
         if (!AmongUsClient.Instance || AmongUsClient.Instance.AmConnected) return;
 
         foreach (LobbyHistoryEntry entry in LobbyHistory.Entries)
@@ -41,7 +41,7 @@ public static class LobbyLookupQueue
                 continue;
             }
 
-            // Keep a known-good row visible while its details are refreshed.
+
             if (entry.Availability != LobbyAvailability.Available)
                 entry.Availability = LobbyAvailability.Checking;
 
@@ -58,8 +58,8 @@ public static class LobbyLookupQueue
     {
         if (!AmongUsClient.Instance) return;
 
-        // A user can join while a history lookup is still completing. Stop and
-        // invalidate that lookup before it can touch the active lobby.
+
+
         if (AmongUsClient.Instance.AmConnected)
         {
             CancelActiveRequest();
@@ -104,8 +104,8 @@ public static class LobbyLookupQueue
     {
         if (requestVersion != _requestVersion) return;
 
-        // The game can show the error popup just after invoking this callback.
-        // Keep a short grace period so a failed silent probe stays silent.
+
+
         _suppressErrorsUntil = Time.realtimeSinceStartup + 2f;
 
         if (LobbyRequestRecovery.IsLobbyRateLimit(error))

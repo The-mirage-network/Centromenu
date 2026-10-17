@@ -12,7 +12,7 @@ namespace CentroFeatures.modules
 {
 	internal class EventCoordinator
 	{
-		// Game Events
+
 		public static event Action OnGameStart;
 		public static event Action OnGameLoad;
 		public static event Action OnDisconnect;
@@ -22,7 +22,7 @@ namespace CentroFeatures.modules
 		public static event Action<Ladder> OnUseLadder;
 		public static event Action<ZiplineConsole> OnUseZipline;
 
-		// Player Events
+
 		public static event Action<PlayerControl, ClientData> OnPlayerJoin;
 		public static event Action<ClientData, DisconnectReasons> OnPlayerDisconnect;
 		public static event Action<PlayerControl, string> OnPlayerChat;
@@ -42,11 +42,11 @@ namespace CentroFeatures.modules
 
 		public static event Action<NetworkedPlayerInfo, NetworkedPlayerInfo> OnPlayerCastVote;
 
-		// Sabotage Events
+
 		public static event Action OnHudOverrideSabotage;
 		public static event Action OnHudOverrideRepair;
 
-		// Network Events
+
 		public static event Action<InnerNetObject> OnNetObjectSpawn;
 
 		private static readonly HashSet<Il2CppSystem.Type> ShipNetObjects = [Il2CppType.From(typeof(ShipStatus)), Il2CppType.From(typeof(SkeldShipStatus)), Il2CppType.From(typeof(MiraShipStatus)), Il2CppType.From(typeof(PolusShipStatus)), Il2CppType.From(typeof(AirshipStatus)), Il2CppType.From(typeof(FungleShipStatus))];
@@ -60,7 +60,7 @@ namespace CentroFeatures.modules
 			}
 		}
 
-		// This function is called when the role selection screen finishes and the game is ready to play
+
 		[HarmonyPatch(typeof(GameManager), nameof(GameManager.StartGame))]
 		class GameLoad
 		{
@@ -104,7 +104,7 @@ namespace CentroFeatures.modules
 			}
 		}
 
-		// This function is late enough to allow us to modify the ladder cooldown without the game overriding it
+
 		[HarmonyPatch(typeof(Ladder), nameof(Ladder.SetDestinationCooldown))]
 		class LadderUsed
 		{
@@ -116,8 +116,8 @@ namespace CentroFeatures.modules
 			}
 		}
 
-		// This function is late enough to allow us to modify the ladder cooldown without the game overriding it
-		// There is a ZiplineConsole::SetDestinationCooldown method, but we cannot patch it as it is inlined
+
+
 		[HarmonyPatch(typeof(ZiplineBehaviour), nameof(ZiplineBehaviour.ResetTarget))]
 		class ZiplineUsed
 		{
@@ -147,8 +147,8 @@ namespace CentroFeatures.modules
 				}
 				else
 				{
-					// We should use NetworkedPlayerInfo::PlayerName instead of PlayerControl::name whenever possible to get the player's name
-					// however if the PlayerControl object has just spawned, then it is unlikely that a NetworkedPlayerInfo object has spawned yet
+
+
 					Centro.Log.LogMessage($"[PlayerLogger] {__instance.name} ({__instance.NetId}) joined.");
 				}
 
@@ -188,8 +188,8 @@ namespace CentroFeatures.modules
 				int ventCleans = reader.ReadPackedInt32();
 				if(ventCleans > PlayerControl.AllPlayerControls.Count || ventCleans > reader.BytesRemaining) goto end;
 
-				// Skip reading through vent clean data
-				// 1 byte for player id, another byte for vent id, so we need to skip by 2 * vent clean count
+
+
 				reader.Position += 2 * ventCleans;
 
 				int ventedPlayers = reader.ReadPackedInt32();
@@ -204,7 +204,7 @@ namespace CentroFeatures.modules
 					ventData[playerId] = ventId;
 				}
 
-				// Compare with what we have with new data to see vent changes
+
 				foreach(PlayerControl player in PlayerControl.AllPlayerControls)
 				{
 					byte playerId = player.PlayerId;
@@ -241,7 +241,7 @@ namespace CentroFeatures.modules
 			{
 				int oldReadPosition = msgReader.Position;
 
-				msgReader.ReadUInt16(); // Sequence ID
+				msgReader.ReadUInt16();
 				VentilationSystem.Operation operation = (VentilationSystem.Operation)msgReader.ReadByte();
 				byte ventId = msgReader.ReadByte();
 
@@ -271,7 +271,7 @@ namespace CentroFeatures.modules
 			static void Postfix(PlayerControl player, MessageReader msgReader)
 			{
 				msgReader.Position--;
-				// 1 = Player started to watch cameras, 2 (and every other value) = Player stopped watching cameras
+
 				byte operation = msgReader.ReadByte();
 				msgReader.Position++;
 
@@ -406,7 +406,7 @@ namespace CentroFeatures.modules
 					playerVotes[msg.Tag] = voteeId;
 				}
 
-				// Compare with what we have with new data to see vote changes
+
 				foreach(PlayerControl player in PlayerControl.AllPlayerControls)
 				{
 					if(player.Data == null) continue;
@@ -494,8 +494,8 @@ namespace CentroFeatures.modules
 			}
 		}
 
-		// These functions are to simplify having null-checks everywhere
-		// Yes I know we could use evt?.Invoke to avoid having to check if the event is null, I just don't like that code style
+
+
 		private static void PublishEvent(Action evt)
 		{
 			if(evt == null) return;

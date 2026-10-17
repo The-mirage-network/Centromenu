@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Centromenu;
 
-/// <summary>
-/// Client-only display-name overrides. Nothing in this class changes GameData or
-/// sends an RPC, so spoofed names are visible only to the local Centromenu user.
-/// </summary>
+
+
+
+
 public static class NameSpoofManager
 {
     private const string OwnerPlayerName = "Centro404";
@@ -57,8 +57,8 @@ public static class NameSpoofManager
 
     public static string GetDisplayName(NetworkedPlayerInfo playerInfo, string fallbackName, bool compact = false)
     {
-        // Every Centro client renders the project owner's display name locally
-        // without changing GameData or sending a name-changing RPC.
+
+
         if (IsOwner(playerInfo, fallbackName))
         {
             int gradientOffset = Mathf.FloorToInt(Time.unscaledTime * 10f);
@@ -70,9 +70,9 @@ public static class NameSpoofManager
                 gradientOffset
             );
 
-            // Chat bubbles only reserve a narrow strip beside the portrait for
-            // the sender. Use the compact owner name there so the message keeps
-            // the game's normal layout; the full title remains above the player.
+
+
+
             return ownerName;
         }
 
@@ -86,7 +86,7 @@ public static class NameSpoofManager
         {
             case ColorMode.Rainbow:
             {
-                // A slow, uniform color transmission across the entire name.
+
                 float hue = Mathf.Repeat(Time.unscaledTime * 0.08f, 1f);
                 return WrapColor(safeName, Color.HSVToRGB(hue, 0.82f, 1f));
             }
@@ -125,8 +125,8 @@ public static class NameSpoofManager
         float travel = Time.unscaledTime * 0.12f;
         int visibleIndex = 0;
 
-        // EscapeRichText converts special characters to entities. Keep each entity
-        // together so an ampersand sequence cannot be split by TMP color tags.
+
+
         for (int i = 0; i < safeName.Length;)
         {
             int tokenLength = 1;

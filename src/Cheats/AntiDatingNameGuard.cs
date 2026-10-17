@@ -8,11 +8,11 @@ using UnityEngine;
 
 namespace Centromenu;
 
-/// <summary>
-/// Detects names that explicitly advertise dating, age/gender, or off-platform
-/// contact. Reports are intentionally deduplicated to one attempt per client in
-/// each lobby so a false positive cannot turn into report spam.
-/// </summary>
+
+
+
+
+
 public static class AntiDatingNameGuard
 {
     public sealed class Finding
@@ -53,9 +53,9 @@ public static class AntiDatingNameGuard
         "instant", "snapshot", "snapdragon"
     };
 
-    // Focused subset of the SaferAmongUs vocabulary. Broad terms from that
-    // project (ordinary names, greetings, boy/girl/man, and every two-digit
-    // number) are deliberately excluded because they create many false reports.
+
+
+
     private static readonly string[] DatingFragments =
     {
         "dating", "datin", "datng", "single", "singl", "sngl", "flirt",
@@ -137,7 +137,7 @@ public static class AntiDatingNameGuard
             if (!TryClassify(player.Data.PlayerName, out string reason)) continue;
 
             int clientId = player.Data.ClientId;
-            
+
             if (CheatToggles.antiDatingAutoReport && !ReportAttempts.Contains(clientId))
             {
                 TryReportOnce(clientId, player.Data.PlayerName);
@@ -223,8 +223,8 @@ public static class AntiDatingNameGuard
             return false;
         }
 
-        // Record before invoking game code. Even if the native service rejects the
-        // request, this guard will not retry in a loop.
+
+
         ReportAttempts.Add(clientId);
 
         try
@@ -258,7 +258,7 @@ public static class AntiDatingNameGuard
     public static bool TryVoteKick(int clientId, string playerName)
     {
         int currentVotes = VoteKickCounts.TryGetValue(clientId, out int count) ? count : 0;
-        
+
         if (currentVotes >= MaxVoteKicks)
         {
             _status = $"Vote-kick limit reached for {playerName} in this lobby.";
@@ -267,8 +267,8 @@ public static class AntiDatingNameGuard
 
         try
         {
-            // If you are the host, you cannot use the vote system. 
-            // Instead, directly kick the player using host authority.
+
+
             if (Utils.isHost)
             {
                 PlayerControl targetPlayer = null;
@@ -287,15 +287,15 @@ public static class AntiDatingNameGuard
                     return false;
                 }
 
-                // Host kick command
+
                 AmongUsClient.Instance.KickPlayer(clientId, false);
-                
+
                 VoteKickCounts[clientId] = currentVotes + 1;
                 _status = $"Host kicked {playerName} (attempt {currentVotes + 1}/{MaxVoteKicks}).";
                 return true;
             }
 
-            // Non-host: use the vote system
+
             if (!VoteBanSystem.Instance)
             {
                 _status = "The vote-kick system is not available right now.";
@@ -304,17 +304,17 @@ public static class AntiDatingNameGuard
 
             if (VoteBanSystem.Instance.HasMyVote(clientId))
             {
-                // If we already have a vote for this specific cycle, 
-                // don't increment our local counter as we didn't send a new vote.
+
+
                 _status = $"You already voted to kick {playerName} this cycle.";
                 return false;
             }
 
             VoteBanSystem.Instance.CmdAddVote(clientId);
-            
-            // Increment our local tracking counter
+
+
             VoteKickCounts[clientId] = currentVotes + 1;
-            
+
             _status = $"Submitted vote-kick {currentVotes + 1}/{MaxVoteKicks} for {playerName}.";
             return true;
         }
@@ -328,7 +328,7 @@ public static class AntiDatingNameGuard
 
     private static bool IsValidTarget(PlayerControl player)
     {
-        // Include the host (player.AmOwner) so the scanner evaluates the host's name too
+
         return player != null && player.Data != null &&
                !player.Data.Disconnected && !string.IsNullOrWhiteSpace(player.Data.PlayerName);
     }
@@ -349,9 +349,9 @@ public static class AntiDatingNameGuard
         {
             if (!value.Contains(candidate)) continue;
 
-            // Small exception list for ordinary words which contain a filtered
-            // fragment. This mirrors the useful part of SaferAmongUs' dictionary
-            // checks without importing its very broad personal-name blacklist.
+
+
+
             if (candidate == "sex" && (value.Contains("essex") || value.Contains("sextant"))) continue;
             if (candidate == "cock" && (value.Contains("peacock") || value.Contains("cocktail"))) continue;
             if (candidate == "cum" && (value.Contains("cucumber") || value.Contains("cumbersome"))) continue;
@@ -446,7 +446,7 @@ public static class AntiDatingNameGuard
     {
         return character switch
         {
-            // Common Greek/Cyrillic lookalikes used to bypass ASCII filters.
+
             'α' or 'а' => 'a',
             'β' or 'в' or 'ь' or 'ъ' => 'b',
             'с' => 'c',

@@ -102,8 +102,8 @@ public class DnoteTab : ITab
     {
         if (!target || !IsValidTarget(target) || !PlayerControl.LocalPlayer) return;
 
-        // The murder animation can pull the killer to a distant target. Preserve the
-        // local player's position for both online games and practice mode.
+
+
         var originalPosition = PlayerControl.LocalPlayer.GetTruePosition();
         Utils.MurderPlayer(target, MurderResultFlags.Succeeded);
         PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(originalPosition);

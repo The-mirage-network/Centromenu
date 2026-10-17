@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Centromenu;
 
-/// <summary>
-/// Keeps lobby refreshes from repeatedly tripping the matchmaker rate limit.
-/// This is intentionally always enabled: there is no menu toggle or profile setting.
-/// </summary>
+
+
+
+
 internal static class LobbyRequestRecovery
 {
     private const float MinimumRequestIntervalSeconds = 6f;
@@ -34,9 +34,9 @@ internal static class LobbyRequestRecovery
     {
         var now = Time.realtimeSinceStartup;
 
-        // The same matchmaker failure can reach both the popup hook and the
-        // find-by-code callback. Treat those as one event so the backoff does
-        // not jump from 30 to 60 seconds for a single response.
+
+
+
         if (now - _lastRateLimitTime < 1f) return;
         _lastRateLimitTime = now;
 
@@ -83,10 +83,10 @@ public static class HttpMatchmakerManager_SetDisconnectInfoAndShowPopup_LobbyReq
 {
     public static bool Prefix(object __0)
     {
-        // This recovery code exists for the silent lobby-history probes only.
-        // Never consume errors from the game's public browser or an explicit
-        // join attempt: doing so can leave the Find Game screen looking as if
-        // it is loading forever with no useful error shown to the player.
+
+
+
+
         if (!LobbyLookupQueue.ShouldSuppressLookupErrors) return true;
 
         string message = null;
@@ -105,8 +105,8 @@ public static class HttpMatchmakerManager_SetDisconnectInfoAndShowPopup_LobbyReq
             return false;
         }
 
-        // History checks are silent probes. An expired code should update its row,
-        // not display a full-screen join error intended for an explicit join attempt.
+
+
         return !LobbyRequestRecovery.IsMissingGameMessage(message);
     }
 }

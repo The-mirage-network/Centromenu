@@ -13,8 +13,8 @@ namespace CentroFeatures.modules.visuals
 		{
 			if(PlayerControl.LocalPlayer == null || PlayerControl.LocalPlayer.Data == null || PlayerControl.LocalPlayer.Data.IsDead || player.Data == null || !player.Data.IsDead) return;
 
-			// There's no quick and easy way to get messages by ghosts to show up in chat if we are still alive
-			// We have to reimplement the ChatController::AddChat method and build the chat bubble ourself
+
+
 			ChatController chatController = HudManager.Instance.Chat;
 			ChatBubble bubble = chatController.GetPooledBubble();
 			try

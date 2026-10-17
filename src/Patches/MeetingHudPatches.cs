@@ -28,7 +28,7 @@ public static class MeetingHud_Update
 {
     public static List<int> votedPlayers = new List<int>();
 
-    // Prefix patch of MeetingHud.Update to constantly bloop new vote icons for each new vote being cast during the meeting
+
     public static void Prefix(MeetingHud __instance)
     {
         if (__instance.state < MeetingHud.MeetingStates.Results)
@@ -74,7 +74,7 @@ public static class MeetingHud_Update
                 }
             }
 
-            // This is required to see who skipped the voting
+
             if (__instance.SkippedVoting)
             {
                 __instance.SkippedVoting.SetActive(CheatToggles.revealVotes);
@@ -84,12 +84,12 @@ public static class MeetingHud_Update
 
     public static void Postfix(MeetingHud __instance)
     {
-        // HudManager.Update may not continue to drive Kira while the meeting UI owns
-        // the active flow. Its own timer guard prevents duplicate ticks in one frame.
+
+
         CentromenuCheats.KiraCheat();
         CentromenuESP.MeetingNametags(__instance);
 
-        // Bugfix: NoClip staying active if meeting is called whilst climbing ladder
+
         PlayerControl.LocalPlayer.onLadder = false;
     }
 }
@@ -97,7 +97,7 @@ public static class MeetingHud_Update
 [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.PopulateResults))]
 public static class MeetingHud_PopulateResults
 {
-    // Prefix patch of MeetingHud.PopulateResults to clear all vote icons before repopulating them for final results
+
     public static void Prefix(MeetingHud __instance)
     {
         foreach (var votedForArea in __instance.playerStates)
@@ -137,10 +137,10 @@ public static class MeetingHud_PopulateResults
 [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CheckForEndVoting))]
 public static class MeetingHud_CheckForEndVoting
 {
-    // Prefix patch of MeetingHud.CheckForEndVoting to make the local player immune to being voted out
+
     public static bool Prefix(MeetingHud __instance)
     {
-        if (!CheatToggles.voteImmune) return true; // We don't need to check whether we are host because this method only runs on the host's side
+        if (!CheatToggles.voteImmune) return true;
 
         if (!__instance.playerStates.All(ps => ps.AmDead || ps.DidVote)) return true;
 
@@ -168,7 +168,7 @@ public static class MeetingHud_CheckForEndVoting
             }
         }
 
-        // This is the only change from the original method - make sure local player is not exiled
+
         if (exiled != null && exiled == PlayerControl.LocalPlayer.Data)
         {
             exiled = null;

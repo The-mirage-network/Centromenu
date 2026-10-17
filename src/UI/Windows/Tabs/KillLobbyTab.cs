@@ -6,17 +6,17 @@ using UnityEngine;
 
 namespace Centromenu
 {
-    /// <summary>
-    /// Patches InnerNetClient.CanBan to always return true.
-    /// This allows non-host clients to issue Kick/Ban commands that 
-    /// the server will process as if they came from the host.
-    /// </summary>
+
+
+
+
+
     [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.CanBan))]
     class CanBanPatch
     {
         static bool Prefix(InnerNetClient __instance, ref bool __result)
         {
-            // Force the client to believe it has host-level ban privileges
+
             __result = true;
             return false;
         }
@@ -38,7 +38,7 @@ namespace Centromenu
             if (PersistentVotekickController.TryConsumeTerminalStatus(out string terminalStatus))
                 _status = terminalStatus;
 
-            // Check if we are in a valid game context
+
             bool canControl = Utils.isPlayer;
 
             GUILayout.Label("Kick Controls", GUIStylePreset.TabSubtitle);
@@ -48,7 +48,7 @@ namespace Centromenu
 
             GUILayout.Space(12f);
 
-            // --- Individual Kick Section ---
+
             bool previousEnabled = GUI.enabled;
             GUI.enabled = previousEnabled && canControl && _selectedOwnerId != NoPlayerSelected;
 
@@ -61,7 +61,7 @@ namespace Centromenu
 
             GUILayout.Space(18f);
 
-            // --- Kick All Section ---
+
             GUILayout.Label("Kick Everyone", GUIStylePreset.TabSubtitle);
 
             GUI.enabled = previousEnabled && canControl;
@@ -112,7 +112,7 @@ namespace Centromenu
 
             if (canControl)
             {
-                // Ensure AllPlayerControls is not null
+
                 if (PlayerControl.AllPlayerControls != null)
                 {
                     foreach (var player in PlayerControl.AllPlayerControls)
@@ -129,9 +129,9 @@ namespace Centromenu
                         if (GUILayout.Button(isSelected ? "Selected" : "Select", GUILayout.Width(100f)))
                         {
                             _selectedOwnerId = player.OwnerId;
-                            // The availability flag was calculated from the selection at
-                            // the start of this frame. Keep a newly clicked target from
-                            // being cleared by the stale-selection cleanup below.
+
+
+
                             selectedTargetStillAvailable = true;
                             _status = $"Selected {player.Data.PlayerName}.";
                         }
@@ -150,7 +150,7 @@ namespace Centromenu
 
             GUILayout.EndScrollView();
 
-            // Reset selection if the target player left the game
+
             if (_selectedOwnerId != NoPlayerSelected && !selectedTargetStillAvailable)
             {
                 _selectedOwnerId = NoPlayerSelected;
@@ -179,7 +179,7 @@ namespace Centromenu
                     PersistentVotekickController.Start(new[] { player });
                     _status = PersistentVotekickController.Status;
                 }
-                
+
                 _selectedOwnerId = NoPlayerSelected;
                 return;
             }
@@ -229,17 +229,17 @@ namespace Centromenu
 
         private static bool IsKickTarget(PlayerControl player)
         {
-            // Exclude self and disconnected players
+
             return player != null && !player.AmOwner && player.Data != null && !player.Data.Disconnected;
         }
     }
 
-    /// <summary>
-    /// Reconnects to the current room and submits one ordinary vote-kick for
-    /// every requested target on each connection. Reconnecting resets the
-    /// local VoteBanSystem state, so the cycle can continue until the target
-    /// is no longer present. Static state survives menu/scene recreation.
-    /// </summary>
+
+
+
+
+
+
     internal static class PersistentVotekickController
     {
         private const float JoinTimeout = 15f;

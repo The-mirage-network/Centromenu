@@ -8,14 +8,14 @@ namespace Centromenu;
 
 public struct CheatToggles
 {
-    // Movement
+
     public static bool noClip;
     public static bool teleportPlayer;
     public static bool teleportCursor;
     public static bool invertControls;
     public static bool anchor;
 
-    // Roles
+
     public static bool setFakeRole;
     public static bool setFakeAlive;
     public static bool noKillCd;
@@ -45,7 +45,7 @@ public struct CheatToggles
     public static bool customKillDistance;
     public static float killDistanceMultiplier = 1f;
 
-    // ESP
+
     public static bool noShadows;
     public static bool seeGhosts;
     public static bool seeRoles;
@@ -55,14 +55,14 @@ public struct CheatToggles
     public static bool revealVotes;
     public static bool seeLobbyInfo;
 
-    // Camera
+
     public static bool spectate;
     public static bool zoomOut;
     public static bool freecam;
     public static bool smoothZoom = true;
     public static bool noCameraShake;
 
-    // Presentation and input compatibility options
+
     public static bool allowKeybindsWhileChatting;
     public static bool showFps;
     public static bool showTime;
@@ -71,13 +71,13 @@ public struct CheatToggles
     public static bool disableHud;
     public static bool lightTheme;
 
-    // Minimap
+
     public static bool mapCrew;
     public static bool mapImps;
     public static bool mapGhosts;
     public static bool colorBasedMap;
 
-    // Tracers
+
     public static bool tracersImps;
     public static bool tracersCrew;
     public static bool tracersGhosts;
@@ -85,7 +85,7 @@ public struct CheatToggles
     public static bool colorBasedTracers;
     public static bool distanceBasedTracers;
 
-    // Chat
+
     public static bool enableChat;
     public static bool unlockCharacters;
     public static bool bypassUrlBlock;
@@ -95,7 +95,7 @@ public struct CheatToggles
     public static bool noChatDelay;
     public static bool chatSpam;
 
-    // Ship
+
     public static bool closeMeeting;
     public static bool autoOpenDoorsOnUse;
     public static bool unfixableLights;
@@ -103,10 +103,10 @@ public struct CheatToggles
     public static bool reportBody;
     public static bool autoReportBodies;
 
-    // Kill
+
     public static bool kira;
 
-    // Sabotage
+
     public static bool commsSab;
     public static bool elecSab;
     public static bool reactorSab;
@@ -121,12 +121,12 @@ public struct CheatToggles
     public static bool sabotageMap;
     public static bool autoFixSabotages;
 
-    // Vents
+
     public static bool unlockVents;
     public static bool walkInVents;
     public static bool kickVents;
 
-    // Animations
+
     public static bool animShields;
     public static bool animAsteroids;
     public static bool autoWeapons;
@@ -136,7 +136,7 @@ public struct CheatToggles
     public static bool animPet;
     public static bool moonWalk;
 
-    // Overload
+
     public static bool showOverload;
     public static bool showOverloadSettings;
     public static bool olAutoStart;
@@ -159,7 +159,7 @@ public struct CheatToggles
     public static bool overloadImps;
     public static bool overloadReset;
 
-    // Console
+
     public static bool showConsole;
     public static bool logDeaths;
     public static bool logShapeshifts;
@@ -167,7 +167,7 @@ public struct CheatToggles
     public static bool logTasks;
     public static bool logGameState;
 
-    // Host-Only
+
     public static bool voteImmune;
     public static bool forceRole;
     public static RoleTypes? forcedRole;
@@ -184,7 +184,7 @@ public struct CheatToggles
     public static bool killAllCrew;
     public static bool killAllImps;
 
-    // Passive
+
     public static bool unlockFeatures;
     public static bool freeCosmetics;
     public static bool avoidPenalties;
@@ -192,29 +192,29 @@ public struct CheatToggles
     public static bool spoofAprilFoolsDate;
     public static bool unlockReportButton;
 
-    // Anti-dating moderation
+
     public static bool antiDatingEnabled;
     public static bool antiDatingAutoReport;
     public static bool antiDatingAutoVoteKick;
 
-    // Modes
+
     public static bool rgbMode;
     public static bool stealthMode;
     public static bool panicMode;
 
-    // Config
+
     public static bool reloadConfig;
     public static bool openConfig;
     public static bool loadProfile;
     public static bool saveProfile;
 
-    // Keybind Map: Toggle Name -> KeyCode (KeyCode.None == No Key)
+
     public static readonly Dictionary<string, KeyCode> Keybinds = new();
 
-    // Map for Reflection Access: Toggle Name -> FieldInfo
+
     public static readonly Dictionary<string, FieldInfo> ToggleFields = new();
 
-    // Populate reflection map once at startup and initialize Keybinds with KeyCode.None
+
     static CheatToggles()
     {
         var fields = typeof(CheatToggles).GetFields(BindingFlags.Static | BindingFlags.Public);
@@ -246,7 +246,7 @@ public struct CheatToggles
         return !setFakeRole && !setFakeAlive && !forceRole && !ejectPlayer && !reportBody && !telekillPlayer && !killPlayer && !spectate && !teleportPlayer;
     }
 
-    // Disables all cheat toggles by setting all to false using the cached ToggleFields
+
     public static void DisableAll()
     {
         foreach (var field in ToggleFields.Values)
@@ -255,8 +255,8 @@ public struct CheatToggles
         }
     }
 
-    // Saves cheat toggles and their keybinds to CentromenuProfile.txt
-    // Format per line: ToggleName = True/False = KeyCode.KEY
+
+
     public static void SaveTogglesToProfile()
     {
         using var writer = new StreamWriter(Centromenu.ProfilePath);
@@ -271,14 +271,14 @@ public struct CheatToggles
 
         foreach (var field in ToggleFields.Values)
         {
-            Keybinds.TryGetValue(field.Name, out var key);  // If no key is set then write KeyCode.None
+            Keybinds.TryGetValue(field.Name, out var key);
             writer.WriteLine($"{field.Name} = {field.GetValue(null)} = KeyCode.{key}");
         }
         writer.WriteLine($"killDistanceMultiplier = {killDistanceMultiplier.ToString(System.Globalization.CultureInfo.InvariantCulture)}");
     }
 
-    // Loads cheat toggles and their keybinds from CentromenuProfile.txt if the file is present
-    // Format per line: ToggleName = True/False = KeyCode.KEY
+
+
     public static void LoadTogglesFromProfile()
     {
         if (!File.Exists(Centromenu.ProfilePath)) return;
@@ -287,18 +287,18 @@ public struct CheatToggles
 
         while (reader.ReadLine() is { } line)
         {
-            // Skips empty lines
+
             if (string.IsNullOrWhiteSpace(line)) continue;
 
-            // Skips lines that are commented out
+
             line = line.Trim();
             if (line.StartsWith("#")) continue;
 
-            // Extracts the three relevant config values for each remaining line
+
             var parts = line.Split('=', 3);
             if (parts.Length < 2) continue;
 
-            // Gets the cheat's FieldInfo from its name
+
             var name = parts[0].Trim();
             if (name == nameof(killDistanceMultiplier))
             {
@@ -311,13 +311,13 @@ public struct CheatToggles
             }
             if (!ToggleFields.TryGetValue(name, out var field)) continue;
 
-            // Loads whether the cheat is enabled or disabled by default
+
             if (bool.TryParse(parts[1].Trim(), out var boolVal))
             {
                 field.SetValue(null, boolVal);
             }
 
-            // Loads the keybind associated with each cheat
+
             KeyCode key = KeyCode.None;
             if (parts.Length >= 3)
             {

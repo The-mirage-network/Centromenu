@@ -14,8 +14,8 @@ namespace CentroFeatures.modules.visuals
 			get { return ModuleManager.accurateDisconnectReason; }
 		}
 
-		// The GameData::ShowNotification function by default only handles disconnect reasons of ExitGame, Kicked, or Banned
-		// Any other disconnection reasons automatically default to the error disconnection message
+
+
 		[HarmonyPatch(typeof(GameData), nameof(GameData.ShowNotification))]
 		class ShowDisconnectNotification
 		{
@@ -24,7 +24,7 @@ namespace CentroFeatures.modules.visuals
 				if(!Instance.Enabled) return true;
 
 				switch(reason) {
-					// GameData::ShowNotification already handles these disconnect messages
+
 					case DisconnectReasons.ExitGame:
 					case DisconnectReasons.Kicked:
 					case DisconnectReasons.Banned:
@@ -39,7 +39,7 @@ namespace CentroFeatures.modules.visuals
 						HudManager.Instance.Notifier.AddDisconnectMessage($"{playerName} was kicked due to duplicate login.");
 						return false;
 
-					// This disconnect reason happens when a player does not send the ClientReady message after the game starts in time
+
 					case DisconnectReasons.ClientTimeout:
 						HudManager.Instance.Notifier.AddDisconnectMessage($"{playerName} was kicked due to timeout.");
 						return false;

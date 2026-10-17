@@ -7,11 +7,11 @@ using CentroFeatures;
 
 namespace Centromenu;
 
-/// <summary>
-/// A persistent player inspector and interaction panel. It deliberately uses
-/// identifiers already supplied to this game client; it never makes an external
-/// lookup or guesses account data.
-/// </summary>
+
+
+
+
+
 public sealed class PlayerTab : ITab
 {
     private enum FollowMode
@@ -385,8 +385,8 @@ public sealed class PlayerTab : ITab
         var local = PlayerControl.LocalPlayer;
         if (!IsUsable(local) || !IsUsable(target)) return;
 
-        // RpcPet drives the hand-petting animation directly and does not require
-        // the local player to have an equipped pet.
+
+
         var targetPosition = target.GetTruePosition();
         local.MyPhysics.RpcPet(targetPosition, targetPosition);
         SetStatus($"Petting animation aimed at {target.Data.PlayerName}.");
@@ -426,8 +426,8 @@ public sealed class PlayerTab : ITab
             var players = PlayerControl.AllPlayerControls;
             if (players == null) return snapshot;
 
-            // Indexing avoids an InvalidOperationException when the network adds
-            // or removes a player during this same GUI frame.
+
+
             var count = players.Count;
             for (var i = 0; i < count; i++)
             {

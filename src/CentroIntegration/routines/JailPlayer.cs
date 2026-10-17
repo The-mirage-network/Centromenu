@@ -4,15 +4,15 @@ using UnityEngine;
 
 namespace CentroFeatures.routines
 {
-	// This could be implemented as a postfix patch of CustomNetworkTransform::Deserialize or as a routine
-	// It took me a while, but I concluded that using a routine is a more elegant design choice
+
+
 	public class JailPlayerRoutine : Routine
 	{
 		public JailPlayerRoutine() : base("JailPlayer") { }
 
 		public readonly HashSet<int> targets = new HashSet<int>();
 
-		// For the sake of performance, only check if players are outside the jail every 500ms
+
 		public readonly float DELAY = 0.5f;
 		private float timeElapsed = 0f;
 
@@ -34,8 +34,8 @@ namespace CentroFeatures.routines
 
 			Enabled = targets.Count > 0;
 
-			// OnEnable can reject the action (for example, while outside a match).
-			// Only announce a jail after the routine remains active and retains the target.
+
+
 			if(enabled)
 			{
 				if(Enabled && IsTarget(player))
@@ -67,8 +67,8 @@ namespace CentroFeatures.routines
 			}
 		}
 
-		// The RoomTracker::GetRoomForPlayer function returns a string with the player's current whereabouts
-		// however it will throw an error if you are not the detective and the player not inside a room but rather near it
+
+
 		private SystemTypes GetRoomForPlayer(PlayerControl player)
 		{
 			foreach(PlainShipRoom room in ShipStatus.Instance.AllRooms)
@@ -117,7 +117,7 @@ namespace CentroFeatures.routines
 					ventId = 4;
 					break;
 
-				// Default to the Skeld values
+
 				default:
 					room = SystemTypes.Nav;
 					ventId = 12;

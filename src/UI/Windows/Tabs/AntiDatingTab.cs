@@ -62,7 +62,7 @@ public class AntiDatingTab : ITab
                         finding.ReportAttempted ? "Report already attempted" : "Report bad name once",
                         GUIStylePreset.NormalButton))
                 {
-                    // Defer mutation of the findings list until enumeration is complete.
+
                     reportClientId = finding.ClientId;
                     reportPlayerName = finding.PlayerName;
                 }

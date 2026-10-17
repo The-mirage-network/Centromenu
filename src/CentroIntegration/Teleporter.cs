@@ -7,7 +7,7 @@ namespace CentroFeatures
 {
 	internal class Teleporter
 	{
-		// This exists for the same reason as why the UpdateSystemsDirectly option for sabotages exist
+
 		public static bool UseSnapToRPC { get; set; } = true;
 
 		public static readonly Dictionary<string, Vector2> skeldTeleportLocations = new Dictionary<string, Vector2>()
@@ -134,7 +134,7 @@ namespace CentroFeatures
 				MapNames.Airship => airshipTeleportLocations,
 				MapNames.Fungle => fungleTeleportLocations,
 				MapNames.Dleks => dleksTeleportLocations,
-				// If we don't have any teleport locations for the current map then just default to the Skeld ones
+
 				_ => skeldTeleportLocations,
 			};
 		}
@@ -160,8 +160,8 @@ namespace CentroFeatures
 
 		public static void TeleportAllTo(Vector2 position)
 		{
-			// On +25 modded protocol lobbies, we are able to send SetColor RPCs as non-host
-			// however we are still affected by message packing limits
+
+
 			int packingLimit = AmongUsClient.Instance.GetMaxMessagePackingLimit();
 			BatchedMessage batch = new BatchedMessage();
 
@@ -196,7 +196,7 @@ namespace CentroFeatures
 
 			if(!VentSeqIds.ContainsKey(player))
 			{
-				// High enough value to supersede the actual sequence ID
+
 				VentSeqIds.Add(player, 10000);
 			}
 

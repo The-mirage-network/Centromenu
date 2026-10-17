@@ -18,7 +18,7 @@ namespace CentroFeatures.anticheat.gamedata
 				return false;
 			}
 
-			// If the host receives a scene change of Tutorial, it will spawn in an instance of The Skeld map
+
 			if(scene == "Tutorial")
 			{
 				Anticheat.Flag(client.Character, $"{client.Character.Data.PlayerName} sent a scene change of Tutorial.");

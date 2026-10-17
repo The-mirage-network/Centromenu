@@ -87,7 +87,7 @@ public static class ActionButton_SetCoolDown
 [HarmonyPatch(typeof(PhantomRole), nameof(PhantomRole.IsValidTarget))]
 public static class PhantomRole_IsValidTarget
 {
-    // Postfix patch of PhantomRole.IsValidTarget to allow killing while invisible
+
     public static void Postfix(NetworkedPlayerInfo target, ref bool __result)
     {
         if (CheatToggles.killVanished)
@@ -100,8 +100,8 @@ public static class PhantomRole_IsValidTarget
 [HarmonyPatch(typeof(ImpostorRole), nameof(ImpostorRole.IsValidTarget))]
 public static class ImpostorRole_IsValidTarget
 {
-    // Postfix patch of ImpostorRole.IsValidTarget to allow forbidden kill targets for killAnyone cheat
-    // Allows killing ghosts (with seeGhosts), impostors, players in vents, etc...
+
+
     public static void Postfix(NetworkedPlayerInfo target, ref bool __result)
     {
         if (CheatToggles.killAnyone)
@@ -114,7 +114,7 @@ public static class ImpostorRole_IsValidTarget
 [HarmonyPatch(typeof(ImpostorRole), nameof(ImpostorRole.FindClosestTarget))]
 public static class ImpostorRole_FindClosestTarget
 {
-    // Prefix patch of ImpostorRole.FindClosestTarget to allow for infinite kill reach
+
     public static bool Prefix(ImpostorRole __instance, ref PlayerControl __result)
     {
         if (!CheatToggles.killReach && !CheatToggles.customKillDistance) return true;
@@ -138,7 +138,7 @@ public static class ImpostorRole_FindClosestTarget
 [HarmonyPatch(typeof(DetectiveRole), nameof(DetectiveRole.FindClosestTarget))]
 public static class DetectiveRole_FindClosestTarget
 {
-    // Prefix patch of DetectiveRole.FindClosestTarget to allow for infinite interrogate reach
+
     public static bool Prefix(DetectiveRole __instance, ref PlayerControl __result)
     {
         if (!CheatToggles.interrogateReach) return true;
@@ -154,7 +154,7 @@ public static class DetectiveRole_FindClosestTarget
 [HarmonyPatch(typeof(TrackerRole), nameof(TrackerRole.FindClosestTarget))]
 public static class TrackerRole_FindClosestTarget
 {
-    // Prefix patch of TrackerRole.FindClosestTarget to allow for infinite track reach
+
     public static bool Prefix(TrackerRole __instance, ref PlayerControl __result)
     {
         if (!CheatToggles.trackReach) return true;

@@ -12,9 +12,9 @@ namespace CentroFeatures.ui.sections
 
 		public readonly Dictionary<string, int> versions = new Dictionary<string, int>()
 		{
-			// Current version at runtime
-			// VersionShower::Start uses ReferenceDataManager.Refdata.userFacingVersion to get version strings such as "17.1"
-			// however that doesn't seem to before the game fully loads, so we have to use Constants::AddressablesVersion to get a less human-understandable version string
+
+
+
 			{ $"{Constants.AddressablesVersion} (Current)", Constants.GetBroadcastVersion() },
 			{ "16.1.0", 50632950 },
 			{ "17.1", 50643450 },
@@ -26,8 +26,8 @@ namespace CentroFeatures.ui.sections
 			{ "17.4", 50656300 },
 			{ "18.0", 50663350 },
 			{ "18.0 (build 7348)", 50663400 },
-			{ "19.0 (build 7488)", 50663650 }, // iOS
-			{ "19.0 (build 7489)", 50663600 } // PC
+			{ "19.0 (build 7488)", 50663650 },
+			{ "19.0 (build 7489)", 50663600 }
 		};
 
 		private int versionSelection = 0;
@@ -46,8 +46,8 @@ namespace CentroFeatures.ui.sections
 
 		private void ClampSelectedLevel(uint newLevel)
 		{
-			// Do we really need to have an upper bounds on the level value?
-			// I doubt anyone will press the +100 that much anyway
+
+
 			uint maxLevel = Utilities.IsAnticheatPresent() ? 100001 : uint.MaxValue - 1;
 
 			ModuleManager.spoofLevel.SpoofedLevel = Math.Clamp(newLevel, 0, maxLevel);

@@ -2,10 +2,10 @@ using UnityEngine;
 
 namespace CentroFeatures.ui;
 
-/// <summary>
-/// Compatibility adapter that routes imported Centro notifications through
-/// CentroMenu's single notification renderer.
-/// </summary>
+
+
+
+
 internal class NotificationManager : MonoBehaviour
 {
     public bool disableNotifications;

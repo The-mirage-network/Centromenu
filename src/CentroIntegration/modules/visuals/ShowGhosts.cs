@@ -14,9 +14,9 @@ namespace CentroFeatures.modules.visuals
 			get { return ModuleManager.showGhosts; }
 		}
 
-		// PlayerControl::FixedUpdate sets PlayerControl::set_Visible to false if the player is dead, or true if the player is alive
-		// The set_Visible function runs CosmeticsLayer::set_Visible in order to hide or show the player's cosmetics
-		// If we want to show ghosts even if we are alive, then we can reimplement PlayerControl::set_Visible and make it so player cosmetics are always visible
+
+
+
 		[HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Visible), MethodType.Setter)]
 		class SetVisible
 		{

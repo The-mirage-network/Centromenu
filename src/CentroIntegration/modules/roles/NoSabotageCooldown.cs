@@ -26,8 +26,8 @@ namespace CentroFeatures.modules.roles
 			}
 		}
 
-		// The SabotageSystemType has checks to ensure that sabotages are not on cooldown
-		// To bypass this we need to forcefully call the sabotage
+
+
 		[HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.RpcUpdateSystem), [ typeof(SystemTypes), typeof(byte) ])]
 		class ForceSabotage
 		{

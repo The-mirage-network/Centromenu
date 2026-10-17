@@ -23,7 +23,7 @@ namespace CentroFeatures.modules.misc
 			{
 				if(!Instance.Enabled) return true;
 
-				// Avoid two chat bubbles from showing up if we are whispering to ourselves
+
 				if(__instance != Instance.target)
 				{
 					BatchedMessage batch = new BatchedMessage(Instance.target.OwnerId);

@@ -60,8 +60,8 @@ namespace CentroFeatures.network
 
 		public void QueueDespawn(InnerNetObject netObject)
 		{
-			// Keep a copy of the net object's net ID
-			// AmongUsClient::RemoveNetObject will result in the net object's net ID being set to uint.MaxValue
+
+
 			uint netId = netObject.NetId;
 
 			if(IsGlobal || AmTarget)

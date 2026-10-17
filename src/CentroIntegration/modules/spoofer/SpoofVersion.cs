@@ -19,7 +19,7 @@ namespace CentroFeatures.modules.spoofer
 		{
 			static bool Prefix(ref int __result)
 			{
-				// Starting a local lobby or entering Freeplay will bug out if we are using a spoofed version
+
 				if(!Instance.Enabled || AmongUsClient.Instance == null || AmongUsClient.Instance.NetworkMode != NetworkModes.OnlineGame) return true;
 
 				__result = Instance.spoofedVersion;

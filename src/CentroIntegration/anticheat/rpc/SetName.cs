@@ -4,12 +4,12 @@ namespace CentroFeatures.anticheat.rpc
 {
 	internal class SetName : RpcCheck
 	{
-		// We increase the max name length to 12 instead of 10 as we need to account for the numbers at the end of player names when there are multiple players with the same name
+
 		public readonly int MAX_NAME_LENGTH = 12;
 
 		public override bool Validate(PlayerControl player, MessageReader reader)
 		{
-			// On modded lobbies, it is common for players to have custom names
+
 			if(!Utilities.IsAnticheatPresent()) return true;
 
 			uint netId = reader.ReadUInt32();
@@ -38,9 +38,9 @@ namespace CentroFeatures.anticheat.rpc
 
 		private uint GetExpectedNetId(PlayerControl player)
 		{
-			// In host authority, the host sends the SetName RPC with the net id of the player's NetworkedPlayerInfo net object
-			// In server authority, the server sends the SetName RPC with the net id of the player's PlayerControl net object
-			// I don't know why this discrepancy exists, or why the SetName RPC even includes the net id field
+
+
+
 			return Utilities.IsAnticheatPresent() ? player.NetId : player.Data.NetId;
 		}
 
@@ -49,8 +49,8 @@ namespace CentroFeatures.anticheat.rpc
 			return RpcCalls.SetName;
 		}
 
-		// On vanilla servers, the host is able to receive the SetName RPC due to how server-authority works
-		// On modded servers, the host should never receive the SetName RPC
+
+
 		public override bool IsHostOnly()
 		{
 			return !Utilities.IsAnticheatPresent();

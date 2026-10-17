@@ -8,12 +8,12 @@ namespace Centromenu;
 [HarmonyPatch(typeof(ShapeshifterMinigame), nameof(ShapeshifterMinigame.Begin))]
 public static class ShapeshifterMinigame_Begin
 {
-    // Prefix patch of ShapeshifterMinigame.Begin to implement player pick menu logic
+
     public static bool Prefix(ShapeshifterMinigame __instance)
     {
-        if (!PlayerPickMenu.isActive) return true; // Open normal shapeshifter menu if not active
+        if (!PlayerPickMenu.isActive) return true;
 
-        // Custom player list set by openPlayerPickMenu
+
         List<NetworkedPlayerInfo> playerList = PlayerPickMenu.customPlayerList;
 
         __instance.potentialVictims = new List<ShapeshifterPanel>();
@@ -31,9 +31,9 @@ public static class ShapeshifterMinigame_Begin
 
             shapeshifterPanel.SetPlayer(i, playerData, (Il2CppSystem.Action) (() =>
             {
-                PlayerPickMenu.targetPlayerData = playerData; // Save targeted player
+                PlayerPickMenu.targetPlayerData = playerData;
 
-                PlayerPickMenu.customAction.Invoke(); // Custom action set by openPlayerPickMenu
+                PlayerPickMenu.customAction.Invoke();
 
                 __instance.Close();
             }));
@@ -42,7 +42,7 @@ public static class ShapeshifterMinigame_Begin
             {
                 shapeshifterPanel.NameText.text = Utils.GetNameTag(playerData, playerData.DefaultOutfit.PlayerName);
 
-                // Move and resize the nametag to prevent it overlapping with colorblind text
+
                 if (CheatToggles.seeRoles && CheatToggles.seePlayerInfo)
                 {
                     shapeshifterPanel.NameText.transform.localPosition = new Vector3(0.33f, 0.08f, 0f);
@@ -55,7 +55,7 @@ public static class ShapeshifterMinigame_Begin
                 }
                 else
                 {
-                    // Reset the position and scale of the nametag to default values (they're kinda weird but whatever)
+
                     shapeshifterPanel.NameText.transform.localPosition = new Vector3(0.3384f, 0.0311f, -0.1f);
                     shapeshifterPanel.NameText.transform.localScale = new Vector3(0.9f, 1f, 1f);
                 }
@@ -70,7 +70,7 @@ public static class ShapeshifterMinigame_Begin
 
         PlayerPickMenu.isActive = false;
 
-        return false; // Skip original method when active
+        return false;
 
     }
 }
@@ -78,10 +78,10 @@ public static class ShapeshifterMinigame_Begin
 [HarmonyPatch(typeof(ShapeshifterPanel), nameof(ShapeshifterPanel.SetPlayer))]
 public static class ShapeshifterPanel_SetPlayer
 {
-    // Prefix patch of ShapeshifterPanel.SetPlayer to allow usage of PlayerPickMenu in lobbies
+
     public static bool Prefix(ShapeshifterPanel __instance, int index, NetworkedPlayerInfo playerInfo, Il2CppSystem.Action onShift)
     {
-        if (!PlayerPickMenu.isActive) return true; // Open normal shapeshifter menu if not active
+        if (!PlayerPickMenu.isActive) return true;
 
         __instance.shapeshift = onShift;
 
@@ -99,13 +99,13 @@ public static class ShapeshifterPanel_SetPlayer
 
         __instance.LevelNumberText.text = ProgressionManager.FormatVisualLevel(playerInfo.PlayerLevel);
 
-        // Skips using custom nameplates because they break the PlayerPickMenu in lobbies
+
 
         __instance.NameText.text = playerInfo.PlayerName;
 
         DataManager.Settings.Accessibility.OnColorBlindModeChanged += (Il2CppSystem.Action)__instance.SetColorblindText;
         __instance.SetColorblindText();
 
-        return false; // Skips original method when active
+        return false;
     }
 }

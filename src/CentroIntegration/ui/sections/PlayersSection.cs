@@ -113,7 +113,7 @@ namespace CentroFeatures.ui.sections
 
 			if(player.OwnerId == AmongUsClient.Instance.HostId)
 			{
-				style.normal.textColor = new Color(1.0f, 0.84f, 0.0f); // #FFD700
+				style.normal.textColor = new Color(1.0f, 0.84f, 0.0f);
 			}
 
 			if(GUI.Button(playerInfo, playerName, style))
@@ -140,8 +140,8 @@ namespace CentroFeatures.ui.sections
 
 			bool hasAnticheat = Utilities.IsAnticheatPresent();
 
-			// If we want to get a player's name, we have to use NetworkedPlayerInfo::PlayerName instead of PlayerControl::name to avoid
-			// getting the incorrect name if the player is shapeshifted to another player
+
+
 			string playerInfo =
 				$"Name: {target.Data.PlayerName} ({Utilities.GetPlayerColor(target.Data)})" +
 				$"\nRole: {target.Data.RoleType}" +
@@ -279,7 +279,7 @@ namespace CentroFeatures.ui.sections
 
 			if(GUILayout.Button("Super Speed"))
 			{
-				// The vanilla anticheat prevents us from being able to exceed speeds greater than 3.0f
+
 				float maxSpeed = Utilities.IsAnticheatPresent() ? 3.0f : 5.0f;
 
 				IGameOptions gameOptions = GameOptions.CreateCloneOptions(GameManager.Instance.LogicOptions.currentGameOptions);
@@ -289,26 +289,26 @@ namespace CentroFeatures.ui.sections
 			}
 			GUILayout.EndHorizontal();
 
-			/*
-			// The problem with changing the TaskBarMode is that if we remove the task bar, we are not able to bring it back
-			GUILayout.BeginHorizontal();
-			if(GUILayout.Button("Hide Task Bar"))
-			{
-				IGameOptions gameOptions = GameOptions.CreateCloneOptions(GameManager.Instance.LogicOptions.currentGameOptions);
-				gameOptions.SetInt(Int32OptionNames.TaskBarMode, (int)TaskBarMode.Invisible);
 
-				GameOptions.SendGameOptionsToClient(gameOptions, target.OwnerId);
-			}
 
-			if(GUILayout.Button("Show Task Bar"))
-			{
-				IGameOptions gameOptions = GameOptions.CreateCloneOptions(GameManager.Instance.LogicOptions.currentGameOptions);
-				gameOptions.SetInt(Int32OptionNames.TaskBarMode, (int)TaskBarMode.Normal);
 
-				GameOptions.SendGameOptionsToClient(gameOptions, target.OwnerId);
-			}
-			GUILayout.EndHorizontal();
-			*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 			if(GUILayout.Button("Reset to Defaults"))
 			{
@@ -356,8 +356,8 @@ namespace CentroFeatures.ui.sections
 
 			Centro.Log.LogInfo($"Attempting to kill {target.Data.PlayerName}, we are not the host so we have to use the CheckMurder RPC");
 
-			// The CheckMurder RPC handler will not authorize kills if you are not the imposter, or you are inside a meeting
-			// There are more checks, but I do not think it is worth adding them all here
+
+
 			if(!RoleManager.IsImpostorRole(PlayerControl.LocalPlayer.Data.RoleType))
 			{
 				Centro.notifications.Send("Murder Player", "You can only murder players when you are an Impostor, unless you are the host of the lobby.");
@@ -424,7 +424,7 @@ namespace CentroFeatures.ui.sections
 			MeetingHud.VoterState[] votes = Array.Empty<MeetingHud.VoterState>();
 
 			batch.QueueVotingComplete(votes, player.Data, false, false, 0);
-			// If we created a MeetingHud object then it will be destroyed by the RpcClose function
+
 			batch.QueueCloseMeeting();
 			batch.FinishBatch();
 		}
@@ -450,8 +450,8 @@ namespace CentroFeatures.ui.sections
 
 			if(target != PlayerControl.LocalPlayer)
 			{
-				// On official servers, we are not able to send MurderPlayer RPCs with other player net IDs
-				// so we need to shapeshift into our desired player and kill everyone ourselves
+
+
 				Utilities.ShapeshiftPlayer(PlayerControl.LocalPlayer, target, false);
 			}
 
@@ -462,7 +462,7 @@ namespace CentroFeatures.ui.sections
 				PlayerControl.LocalPlayer.RpcMurderPlayer(player, true);
 			}
 
-			// Wait three seconds so all players can see which player we are framing
+
 			yield return Effects.Wait(3.0f);
 
 			ModuleManager.disableGameEnd.Enabled = false;

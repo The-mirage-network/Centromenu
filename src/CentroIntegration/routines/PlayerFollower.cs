@@ -14,16 +14,16 @@ namespace CentroFeatures.routines
 		{
 			if(PlayerControl.LocalPlayer == null) return;
 
-			/*
-			float distance = Vector3.Distance(target.transform.position, PlayerControl.LocalPlayer.transform.position);
-			if(distance > 2)
-			{
-				Centro.Log.LogInfo($"We drifted too far away from the player we are following, teleporting back to course. Distance: {distance}");
-				Teleporter.TeleportTo(target.transform.position);
-			}
-			*/
 
-			// We could probably see how haunting as a ghost makes the follower walks towards a player's position so we don't have to directly teleport, but this works fine for now
+
+
+
+
+
+
+
+
+
 			PlayerControl.LocalPlayer.transform.position = target.transform.position;
 		}
 

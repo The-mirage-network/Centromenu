@@ -4,18 +4,18 @@ using UnityEngine;
 
 namespace Centromenu;
 
-/// <summary>
-/// Lets the user choose which lobby player should be used by unloader features.
-/// </summary>
+
+
+
 public sealed class UnloaderTab : ITab
 {
     private byte? _selectedPlayerId;
     private Vector2 _playerScrollPosition;
     private string _status = "Select a player to overwrite SpecifiedPlayer.";
 
-    /// <summary>
-    /// The player most recently committed with the Overwrite button.
-    /// </summary>
+
+
+
     public static PlayerControl SpecifiedPlayer;
 
     public string name => "Unloader";
@@ -151,8 +151,8 @@ public sealed class UnloaderTab : ITab
             return;
         }
 
-        // Use the same targeted report call as Auto Report Bodies rather than
-        // passing null, which would request an emergency meeting instead.
+
+
         PlayerControl.LocalPlayer.CmdReportDeadBody(specifiedPlayer.Data);
         CentroAPI.Notification("DEAD BODY REPORTED");
     }

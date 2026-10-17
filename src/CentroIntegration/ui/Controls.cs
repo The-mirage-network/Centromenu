@@ -8,10 +8,10 @@ namespace CentroFeatures.ui
 {
 	internal class Controls
 	{
-		// The RoleTypes enum has some weird gaps, everything from Crewmate (0) to Tracker (10) is normal, but then Detective is 12, Viper is 18, and Spirit Guide is 21
-		// https://www.innersloth.com/2026-roadmap-part-1/
-		// The Among Us 2026 roadmap does state that there are currently 15 prototype roles in the works,
-		// could these gaps be attributed to roles that have not been added to the retail version of the game?
+
+
+
+
 		public static readonly List<RoleTypes> RolesList = new List<RoleTypes>()
 		{
 			RoleTypes.Crewmate,
@@ -70,7 +70,7 @@ namespace CentroFeatures.ui
 
 		public static int HorizontalVentSlider(SortedDictionary<int, string> vents, int currentVent)
 		{
-			// Reset current vent if it is out ouf bounds
+
 			int firstKey = vents.Keys.First();
 			if(currentVent < firstKey || currentVent >= vents.Count) currentVent = firstKey;
 
@@ -80,7 +80,7 @@ namespace CentroFeatures.ui
 		public static bool PlayerSpecificToggle(string label, PlayerControl selectedPlayer, ref PlayerControl currentPlayer)
 		{
 			GUIStyle toggle = new GUIStyle(GUI.skin.toggle);
-			// We do not want the toggle to appear as enabled if selectedPlayer and currentPlayer are both null
+
 			bool isCurrentSelection = selectedPlayer != null && selectedPlayer == currentPlayer;
 
 			if(isCurrentSelection)
@@ -90,15 +90,15 @@ namespace CentroFeatures.ui
 				toggle.hover = toggle.onHover;
 			}
 
-			// The GUILayout::Toggle function always returns the current state of the toggle
-			// It is possible to determine when the toggle is changed, however it requires messy hacks involving getters and setters
-			// Using a GUILayout.Button disguised as a toggle that triggers only when the button is pressed is more practical here
+
+
+
 			if(GUILayout.Button(label, toggle))
 			{
 				currentPlayer = isCurrentSelection ? null : selectedPlayer;
 			}
 
-			// If current player is not null, then the module (or routine) should be enabled
+
 			return currentPlayer != null;
 		}
 
@@ -114,9 +114,9 @@ namespace CentroFeatures.ui
 				toggle.hover = toggle.onHover;
 			}
 
-			// The GUILayout::Toggle function always returns the current state of the toggle
-			// It is possible to determine when the toggle is changed, however it requires messy hacks involving getters and setters
-			// Using a GUILayout.Button disguised as a toggle that triggers only when the button is pressed is more practical here
+
+
+
 			if(GUILayout.Button(label, toggle) && selectedPlayer != null)
 			{
 				if(!isSelected)
@@ -189,8 +189,8 @@ namespace CentroFeatures.ui
 				}
 			}
 
-			// If the amount of buttons does not divide into the amount of columns per row then we won't be ending the horizontal layout
-			// so we check if we need to end it here
+
+
 			if(currentColumn != 0)
 			{
 				GUILayout.EndHorizontal();

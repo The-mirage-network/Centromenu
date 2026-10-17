@@ -6,7 +6,7 @@ namespace CentroFeatures.ui
 {
 	public class MainUI : MonoBehaviour
 	{
-		// Current window
+
 		public KeyCode menuKey = KeyCode.Insert;
 		public bool visible = false;
 		public static float scale = 1.0f;
@@ -20,7 +20,7 @@ namespace CentroFeatures.ui
 			get { return new Vector2(500, 470) * scale; }
 		}
 
-		// UI Header
+
 		public static Vector2 HeaderSize
 		{
 			get { return new Vector2(WindowSize.x, 20 * scale); }
@@ -31,7 +31,7 @@ namespace CentroFeatures.ui
 			get { return new Vector2(windowPosition.x, windowPosition.y); }
 		}
 
-		// UI Section Pane
+
 		private readonly Section[] sections = { new GeneralSection(), new SelfSection(), new TrollSection(), new SabotageSection(), new HostSection(), new RolesSection(), new PlayersSection(), new MovementSection(), new VisualSection(), new ProtectionsSection(), new AnticheatSection(), new SpooferSection(), new MenuSection() };
 		public byte activeTab = 0;
 
@@ -50,7 +50,7 @@ namespace CentroFeatures.ui
 			get { return new Vector2(SectionListSize.x, 25 * scale); }
 		}
 
-		// Feature Pane
+
 		public static Vector2 FeaturePaneSize
 		{
 			get { return new Vector2(WindowSize.x - SectionListSize.x, WindowSize.y - HeaderSize.y); }
@@ -66,14 +66,14 @@ namespace CentroFeatures.ui
 			Event currentEvent = Event.current;
 			if(currentEvent == null) return;
 
-			// Input::GetKeyDown(KeyCodes.Insert) returns true if you press the dedicated Insert key, but not the numpad Insert key
-			// so we have to rely on Event.current here
+
+
 			if(currentEvent.type == EventType.KeyDown && currentEvent.keyCode == menuKey)
 			{
 				visible = !visible;
 			}
 
-			// Tool to test the notifications system
+
 			if(Input.GetKeyDown(KeyCode.F6))
 			{
 				System.Random random = new System.Random();
@@ -82,7 +82,7 @@ namespace CentroFeatures.ui
 
 			if(!visible) return;
 
-			// Handle changing the current section through arrow keys
+
 			if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))
 			{
 				int offset = Input.GetKeyDown(KeyCode.UpArrow) ? -1 : 1;
@@ -102,19 +102,19 @@ namespace CentroFeatures.ui
 
 		public void OnGUI()
 		{
-			// https://docs.unity3d.com/6000.3/Documentation/Manual/GUIScriptingGuide.html
+
 			if(!visible) return;
 
 			GUI.skin.label.fontSize = (int)(13 * scale);
 
-			// Render UI box
+
 			GUI.Box(new Rect(windowPosition.x, windowPosition.y, WindowSize.x, WindowSize.y), "CentroMenu", Styles.MainBox);
 
 			for(byte i = 0; i < sections.Length; i++)
 			{
 				Section section = sections[i];
 
-				// Add the tab to the left-pane
+
 				RenderTab(i, section);
 
 				if(i == activeTab)
@@ -132,14 +132,14 @@ namespace CentroFeatures.ui
 
 		private void HandleBoxMovement()
 		{
-			// https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Event.html
+
 			Event currentEvent = Event.current;
 			Vector2 mousePos = currentEvent.mousePosition;
 
 			switch(currentEvent.type)
 			{
-				// I tried using currentEvent.delta to get the delta between the last mouse position and the current one,
-				// however I noticed it would 'skip' quite frequently resulting in the window box not properly lining up where it should actually be dragged
+
+
 				case EventType.MouseDown:
 					if(!IsInBox(mousePos)) break;
 

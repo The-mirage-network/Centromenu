@@ -33,7 +33,7 @@ public class AnimationsTab : ITab
 
         CheatToggles.animCamsInUse = GUILayout.Toggle(CheatToggles.animCamsInUse, " Cams In Use");
 
-        // CheatToggles.animPet = GUILayout.Toggle(CheatToggles.animPet, " Pet");
+
     }
 
     private void DrawClientSided()

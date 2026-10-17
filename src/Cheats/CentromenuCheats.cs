@@ -127,8 +127,8 @@ public static class CentromenuCheats
     {
         if (!CheatToggles.unlockReportButton || !hudManager.ReportButton) return;
 
-        // Some modes disable the entire object rather than only its ReportButton state.
-        // Force both layers on so it also remains visible in lobbies and normal games.
+
+
         hudManager.ReportButton.gameObject.SetActive(true);
         hudManager.ReportButton.SetActive(true);
     }
@@ -195,8 +195,8 @@ public static class CentromenuCheats
 
         var currentTime = Time.realtimeSinceStartup;
 
-        // Schedule the first meeting attempt on the same 1.4-second cadence as every
-        // later attempt.
+
+
         if (!_kiraStarted)
         {
             _kiraStarted = true;
@@ -210,8 +210,8 @@ public static class CentromenuCheats
 
         KiraMeetingPulse();
 
-        // The first meeting request must be sent before the sabotages. Do this only
-        // once per Kira activation; later pulses only request another meeting.
+
+
         if (!_kiraSabotagesExecuted)
         {
             ActivateKiraSabotages();
@@ -224,7 +224,7 @@ public static class CentromenuCheats
         CheatToggles.reactorSab = true;
         CheatToggles.commsSab = true;
 
-        // Oxygen and lights do not exist on every map.
+
         var mapId = Utils.GetCurrentMapID();
         CheatToggles.oxygenSab = mapId != 2 && mapId != 4 && mapId != 5;
         CheatToggles.elecSab = mapId != 5;
@@ -232,22 +232,22 @@ public static class CentromenuCheats
 
     private static void KiraMeetingPulse()
     {
-        // Meetings cannot overlap. Keep the pulse schedule running, but only issue a
-        // new request after the current meeting or exile sequence has cleared.
+
+
         if (MeetingHud.Instance || ExileController.Instance) return;
 
         var localPlayer = PlayerControl.LocalPlayer;
         if (!localPlayer || localPlayer.Data == null) return;
 
-        // The host is authorized to start a meeting directly, including during a crisis.
+
         if (Utils.isHost)
         {
             CallMeetingNow();
             return;
         }
 
-        // A non-host dead player cannot report, and spoofing another reporter causes an
-        // unauthorized-RPC kick. While alive, use a real unreported body during crises.
+
+
         if (localPlayer.Data.IsDead) return;
 
         foreach (var bodyObject in GameObject.FindGameObjectsWithTag("DeadBody"))
@@ -262,7 +262,7 @@ public static class CentromenuCheats
             return;
         }
 
-        // Without a body, use the normal emergency request only when no crisis is active.
+
         if (!Utils.isAnySabotageActive)
         {
             localPlayer.CmdReportDeadBody(null);
@@ -273,15 +273,15 @@ public static class CentromenuCheats
     {
         if (!CheatToggles.closeMeeting) return;
 
-        if (MeetingHud.Instance) // Closes the meeting locally; host privileges are not required.
+        if (MeetingHud.Instance)
         {
             var meetingHud = MeetingHud.Instance;
 
-            // Destroy MeetingHud window gameobject
+
             meetingHud.DespawnOnDestroy = false;
             Object.Destroy(meetingHud.gameObject);
 
-            // Gameplay must be reenabled
+
             HudManager.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.black, Color.clear, 0.2f, false));
             PlayerControl.LocalPlayer.SetKillTimer(GameManager.Instance.LogicOptions.GetKillCooldown());
             if (ShipStatus.Instance)
@@ -297,7 +297,7 @@ public static class CentromenuCheats
             ControllerManager.Instance.CloseAndResetAll();
 
         }
-        else if (ExileController.Instance) // Ends exile cutscene if it's playing
+        else if (ExileController.Instance)
         {
             ExileController.Instance.ReEnableGameplay();
             ExileController.Instance.WrapUp();
@@ -318,8 +318,8 @@ public static class CentromenuCheats
             }
             else if (PlayerControl.LocalPlayer)
             {
-                // Non-hosts use the normal vote command to avoid an unauthorized
-                // VotingComplete RPC and the automatic kick that can follow it.
+
+
                 MeetingHud.Instance.CmdCastVote(PlayerControl.LocalPlayer.PlayerId, PlayerVoteArea.SkippedVote);
             }
         }
@@ -341,7 +341,7 @@ public static class CentromenuCheats
 
         if (Utils.isHost)
         {
-            // Same as PlayerControl.ReportDeadBody but without additional checks
+
             if (MeetingRoomManager.Instance != null)
             {
                 MeetingRoomManager.Instance.AssignSelf(PlayerControl.LocalPlayer, null);
@@ -399,12 +399,12 @@ public static class CentromenuCheats
     {
         if (CheatToggles.endlessVentTime)
         {
-            // Makes vent time incredibly long (float.MaxValue) so that it never ends
+
             engineerRole.inVentTimeRemaining = float.MaxValue;
         }
         else if (engineerRole.inVentTimeRemaining > engineerRole.GetCooldown())
         {
-            // Vent time is reset to normal value after the cheat is disabled
+
             engineerRole.inVentTimeRemaining = engineerRole.GetCooldown();
         }
 
@@ -424,12 +424,12 @@ public static class CentromenuCheats
     {
         if (CheatToggles.endlessSsDuration)
         {
-            // Makes shapeshift duration so incredibly long (float.MaxValue) so that it never ends
+
             shapeshifterRole.durationSecondsRemaining = float.MaxValue;
         }
         else if (shapeshifterRole.durationSecondsRemaining > GameManager.Instance.LogicOptions.GetRoleFloat(FloatOptionNames.ShapeshifterDuration))
         {
-            // Shapeshift duration is reset to normal value after the cheat is disabled
+
             shapeshifterRole.durationSecondsRemaining = GameManager.Instance.LogicOptions.GetRoleFloat(FloatOptionNames.ShapeshifterDuration);
 
         }
@@ -444,12 +444,12 @@ public static class CentromenuCheats
 
         if (CheatToggles.endlessBattery)
         {
-            // Makes vitals battery so incredibly long (float.MaxValue) so that it never ends
+
             scientistRole.currentCharge = float.MaxValue;
         }
         else if (scientistRole.currentCharge > scientistRole.RoleCooldownValue)
         {
-            // Battery charge is reset to normal value after the cheat is disabled
+
             scientistRole.currentCharge = scientistRole.RoleCooldownValue;
         }
     }
@@ -472,24 +472,24 @@ public static class CentromenuCheats
 
         if (CheatToggles.endlessTracking)
         {
-            // Makes vitals battery so incredibly long (float.MaxValue) so that it never ends
+
             trackerRole.durationSecondsRemaining = float.MaxValue;
         }
         else if (trackerRole.durationSecondsRemaining > GameManager.Instance.LogicOptions.GetRoleFloat(FloatOptionNames.TrackerDuration))
         {
-            // Battery charge is reset to normal value after the cheat is disabled
+
             trackerRole.durationSecondsRemaining = GameManager.Instance.LogicOptions.GetRoleFloat(FloatOptionNames.TrackerDuration);
         }
     }
 
     public static void UseVentCheat(HudManager hudManager)
     {
-        // try-catch to prevent errors when role is null
+
         try
         {
 
-			// Engineers & Impostors don't need this cheat so it is disabled for them
-			// Ghost venting causes issues so it is also disabled
+
+
 
 			if (!PlayerControl.LocalPlayer.Data.Role.CanVent && !PlayerControl.LocalPlayer.Data.IsDead)
             {
@@ -533,7 +533,7 @@ public static class CentromenuCheats
         }
         else
         {
-            // Kill all players by sending a successful MurderPlayer RPC call
+
             foreach (var player in PlayerControl.AllPlayerControls)
             {
                 Utils.MurderPlayer(player, MurderResultFlags.Succeeded);
@@ -553,7 +553,7 @@ public static class CentromenuCheats
         }
         else
         {
-            // Kill all players by sending a successful MurderPlayer RPC call
+
             foreach (var player in PlayerControl.AllPlayerControls)
             {
                 if (player.Data.Role.TeamType == RoleTeamTypes.Crewmate)
@@ -576,7 +576,7 @@ public static class CentromenuCheats
         }
         else
         {
-            // Kill all players by sending a successful MurderPlayer RPC call
+
             foreach (var player in PlayerControl.AllPlayerControls)
             {
                 if (player.Data.Role.TeamType == RoleTeamTypes.Impostor)
@@ -595,9 +595,9 @@ public static class CentromenuCheats
 
         foreach (var player in ProtectUI.playersToProtect)
         {
-            if (player.protectedByGuardianId == -1) // -1 means no protection is currently active
+            if (player.protectedByGuardianId == -1)
             {
-                //PlayerControl.LocalPlayer.TurnOnProtection(true, PlayerControl.LocalPlayer.cosmetics.ColorId, PlayerControl.LocalPlayer.PlayerId);
+
                 PlayerControl.LocalPlayer.RpcProtectPlayer(player, PlayerControl.LocalPlayer.cosmetics.ColorId);
             }
         }
@@ -608,7 +608,7 @@ public static class CentromenuCheats
         if (PlayerControl.LocalPlayer?.NetTransform == null || Camera.main == null) return;
         if (!CheatToggles.teleportCursor) return;
 
-        // Teleport player to cursor's in-world position on right-click
+
         if (Input.GetMouseButtonDown(1))
         {
             PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(Camera.main.ScreenToWorldPoint(Input.mousePosition));
@@ -643,7 +643,7 @@ public static class CentromenuCheats
     {
         if (CheatToggles.animPet && Utils.isPlayer && PlayerControl.LocalPlayer.cosmetics != null && PlayerControl.LocalPlayer.cosmetics.CurrentPet != null)
         {
-            // Don't move LocalPlayer, just send the RPC so others see the petting animation
+
             RpcPetMessage rpcMessage = new(PlayerControl.LocalPlayer.MyPhysics.NetId,
                 PlayerControl.LocalPlayer.cosmetics.CurrentPet.PettingPlayerPosition,
                 PlayerControl.LocalPlayer.cosmetics.CurrentPet.transform.position);
@@ -691,13 +691,13 @@ public static class CentromenuCheats
         {
             if (CheatToggles.animCamsInUse && !_isCamsAnimActive)
             {
-                // ShipStatus.Instance.UpdateSystem(SystemTypes.Security, PlayerControl.LocalPlayer, (byte)(CheatToggles.animCamsInUse ? 1 : 0));
+
                 ShipStatus.Instance.RpcUpdateSystem(SystemTypes.Security, 1);
                 _isCamsAnimActive = true;
             }
             else if (!CheatToggles.animCamsInUse && _isCamsAnimActive)
             {
-                // Turn off cams if the cheat was used before and is now disabled
+
                 ShipStatus.Instance.RpcUpdateSystem(SystemTypes.Security, 0);
                 _isCamsAnimActive = false;
             }
@@ -716,8 +716,8 @@ public static class CentromenuCheats
         CheatToggles.animMedScan = false;
         CheatToggles.animCamsInUse = false;
 
-        // This ensures cams and scan animations don't remain marked as active if the player
-        // disconnects while the toggles are on (as this may cause unusual RPCs in lobbies)
+
+
 
         _isCamsAnimActive = false;
         _isScanAnimActive = false;

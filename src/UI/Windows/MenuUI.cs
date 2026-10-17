@@ -16,11 +16,11 @@ public class MenuUI : MonoBehaviour
     private VotekickTab _votekickTab;
     private Vector2 _tabScrollPosition;
     private Texture2D _backgroundTexture;
-    public static float hue; // For RGB mode
+    public static float hue;
 
     private void Start()
     {
-        // Add all tabs on start
+
         _tabs.Add(new MovementTab());
         _tabs.Add(new ESPTab());
         _tabs.Add(new RolesTab());
@@ -44,11 +44,11 @@ public class MenuUI : MonoBehaviour
         _tabs.Add(new CustomizationTab());
         _tabs.Add(new ConfigTab());
         _tabs.Add(new FunTab());
-        // _tabs.Add(new OverloadTab());
+
 
         _backgroundTexture = Utils.LoadTextureFromResources("Centromenu.Assets.Background.png");
 
-        // Instantiate 2D area of MenuUI
+
         windowRect = new(
             Screen.width / 2f - windowWidth / 2f,
             Screen.height / 2f - windowHeight / 2f,
@@ -76,12 +76,12 @@ public class MenuUI : MonoBehaviour
 
         if (Input.GetKeyDown(Utils.StringToKeycode(Centromenu.menuKeybind.Value)))
         {
-            // Enable or disable GUI with DELETE key
+
             isGUIActive = !isGUIActive;
 
             if (Centromenu.menuOpenOnMouse.Value)
             {
-                // Teleport the window to the mouse for immediate use
+
                 Vector2 mousePosition = Input.mousePosition;
                 windowRect.position = new Vector2(mousePosition.x, Screen.height - mousePosition.y);
             }
@@ -89,8 +89,8 @@ public class MenuUI : MonoBehaviour
 
         if (CheatToggles.rgbMode)
         {
-            hue += Time.deltaTime * 0.3f; // Adjust speed of color change, higher multiplier = faster
-            if (hue > 1f) hue -= 1f; // Loop hue back to 0 when it exceeds 1
+            hue += Time.deltaTime * 0.3f;
+            if (hue > 1f) hue -= 1f;
         }
 
         if (CheatToggles.stealthMode != Centromenu.inStealthMode)
@@ -125,7 +125,7 @@ public class MenuUI : MonoBehaviour
 
         if (CheatToggles.saveProfile)
         {
-            CheatToggles.saveProfile = false; // Disable first to avoid saving it to profile
+            CheatToggles.saveProfile = false;
             CheatToggles.SaveTogglesToProfile();
         }
 
@@ -135,7 +135,7 @@ public class MenuUI : MonoBehaviour
             CheatToggles.loadProfile = false;
         }
 
-        // Some cheats only work if the LocalPlayer exists, so they are turned off if it does not
+
         if(!Utils.isPlayer)
         {
             CheatToggles.setFakeRole = false;
@@ -156,7 +156,7 @@ public class MenuUI : MonoBehaviour
             }
         }
 
-        // Some cheats only work if the ship exists, so they are turned off if it does not
+
         if(!Utils.isShip)
         {
             CheatToggles.kira = false;
@@ -199,7 +199,7 @@ public class MenuUI : MonoBehaviour
             CheatToggles.noOptionsLimits = false;
         }
 
-        // Some cheats only work if in a meeting, so they are turned off if it does not
+
         if (!Utils.isMeeting)
         {
             CheatToggles.skipMeeting = false;
@@ -257,8 +257,8 @@ public class MenuUI : MonoBehaviour
 
         GUILayout.BeginHorizontal();
 
-        // Leave enough room for the vertical scrollbar so it cannot cover the
-        // labels or clip the rounded right edge of the navigation buttons.
+
+
         const float tabScrollbarSpace = 22f;
         var tabRailWidth = windowWidth * 0.19f;
         _tabScrollPosition = GUILayout.BeginScrollView(
@@ -283,14 +283,14 @@ public class MenuUI : MonoBehaviour
         }
         GUILayout.EndScrollView();
 
-        // Vertical separator line + invisible space to create gap between the tab selector and the content
+
         GUILayout.Box("", GUIStylePreset.Separator, GUILayout.Width(1f), GUILayout.ExpandHeight(true));
         GUILayout.Space(10f);
 
-        // Right tab content and controls
+
         GUILayout.BeginVertical(GUILayout.ExpandWidth(true));
 
-        // Tab-specific content
+
         if (_selectedTab >= 0 && _selectedTab < _tabs.Count)
         {
             GUILayout.Label(_tabs[_selectedTab].name, GUIStylePreset.TabTitle);
@@ -301,7 +301,7 @@ public class MenuUI : MonoBehaviour
 
         GUILayout.EndHorizontal();
 
-        // Make the window draggable
+
         GUI.DragWindow();
     }
 

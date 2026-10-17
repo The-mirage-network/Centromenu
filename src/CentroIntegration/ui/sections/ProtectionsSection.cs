@@ -9,7 +9,7 @@ namespace CentroFeatures.ui.sections
 
 		public override void Render()
 		{
-			// Network
+
 			ModuleManager.forceDtls.Enabled = GUILayout.Toggle(ModuleManager.forceDtls.Enabled, "Force enable DTLS to encrypt network data");
 
 			ModuleManager.blockServerTeleports.Enabled = GUILayout.Toggle(ModuleManager.blockServerTeleports.Enabled, "Block position updates from server");
@@ -18,7 +18,7 @@ namespace CentroFeatures.ui.sections
 
 			ModuleManager.antiCrash.Enabled = GUILayout.Toggle(ModuleManager.antiCrash.Enabled, "Protect against ReportDeadBody lobby crash exploit");
 
-			// Overloads
+
 			GUILayout.Space(5);
 			GUILayout.Label("Anti Overload:");
 			ModuleManager.antiOverload.Enabled = GUILayout.Toggle(ModuleManager.antiOverload.Enabled, "Enabled");
@@ -27,7 +27,7 @@ namespace CentroFeatures.ui.sections
 			ModuleManager.antiOverload.HardenedPacketUIntDeserializer = GUILayout.Toggle(ModuleManager.antiOverload.HardenedPacketUIntDeserializer, "Use hardened packed int deserializer");
 			ModuleManager.antiOverload.BlockVotingCompleteOverload = GUILayout.Toggle(ModuleManager.antiOverload.BlockVotingCompleteOverload, "Protect against VotingComplete overloads");
 
-			// Kick Exploits
+
 			GUILayout.Space(5);
 			GUILayout.Label("Anti Kick:");
 			ModuleManager.antiKick.Enabled = GUILayout.Toggle(ModuleManager.antiKick.Enabled, "Enabled");

@@ -6,8 +6,8 @@ namespace CentroFeatures.routines;
 
 public sealed class WHOEVERMOVESFIRSTISGAY : Routine
 {
-    // Match JailPlayerRoutine's interval so position enforcement does not flood
-    // the network or trip the server's movement/RPC rate limits.
+
+
     private const float CheckDelay = 0.50f;
     private const float MovementToleranceSquared = 0.0004f;
 
@@ -52,9 +52,9 @@ public sealed class WHOEVERMOVESFIRSTISGAY : Routine
             }
             else
             {
-                // Send the same networked SnapTo correction used by Centro's
-                // remote teleport path so non-host enforcement is not merely
-                // visual on this client.
+
+
+
                 Teleporter.TeleportPlayerTo(player, startingPosition);
             }
         }

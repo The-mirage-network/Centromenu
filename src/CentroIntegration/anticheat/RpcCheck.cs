@@ -21,8 +21,8 @@ namespace CentroFeatures.anticheat
 
 		public virtual Type GetExpectedNetObject()
 		{
-			// There are more RPCs for the PlayerControl net object than for any other net object
-			// To make it easier for us, each instance of RpcCheck will be for the PlayerControl net object unless stated otherwise
+
+
 			return typeof(PlayerControl);
 		}
 	}

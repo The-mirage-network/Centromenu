@@ -25,7 +25,7 @@ namespace CentroFeatures.modules.troll
 				ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Ventilation, out ISystemType system);
 				VentilationSystem ventSystem = system.Cast<VentilationSystem>();
 
-				// Kick out all players who are currently inside a vent
+
 				foreach(PlayerControl player in PlayerControl.AllPlayerControls)
 				{
 					if(!ventSystem.PlayersInsideVents.ContainsKey(player.PlayerId)) continue;

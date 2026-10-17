@@ -10,11 +10,11 @@ namespace CentroFeatures.anticheat.rpc
 {
 	internal class UpdateSystem : RpcCheck
 	{
-		// TODO: Maybe change the variable name to something shorter lol?
+
 		private static readonly SystemTypes[] SystemsThatCanBeUpdatedWhenDead = {
 			SystemTypes.MedBay,
 			SystemTypes.Sabotage,
-			// Ghosts update the Security system when closing cameras, but not opening them
+
 			SystemTypes.Security,
 			SystemTypes.Ventilation
 		};
@@ -47,7 +47,7 @@ namespace CentroFeatures.anticheat.rpc
 				return false;
 			}
 
-			// thanks https://discord.com/channels/623153565053222947/754333645199900723/1292612730418757785
+
 			Il2CppSystem.Type systemType = Il2CppType.TypeFromPointer(systemInterface.ObjectClass);
 
 			systemHandlers.TryGetValue(systemType, out Func<PlayerControl, MessageReader, bool> handler);
@@ -88,7 +88,7 @@ namespace CentroFeatures.anticheat.rpc
 			return true;
 		}
 
-		// The Mushroom Mixup system is only updated in the SabotageSystemType::Update function by the host. It should never be sent by a player
+
 		private static bool ValidateMushroomMixupSystem(PlayerControl player, MessageReader reader)
 		{
 			MushroomMixupSabotageSystem.Operation operation = (MushroomMixupSabotageSystem.Operation)reader.ReadByte();
@@ -164,18 +164,18 @@ namespace CentroFeatures.anticheat.rpc
 				return false;
 			}
 
-			// Block light switch updates when lights are currently not sabotaged
-			// It is possible for this check to false flag if a player is attempting to fix lights when they have not received the message about the sabotage being fixed
-			// This is also why you may experience the bug where lights get unfixed right after they get fixed
-			// So to avoid wrongly banning players, we just silent flag and block the RPC to prevent hackers from being able to force sabotage lights
+
+
+
+
 			if(!Sabotage.IsSabotageActive(SystemTypes.Electrical))
 			{
 				Centro.Log.LogInfo($"Blocked switch update from {player.Data.PlayerName} as lights are not currently sabotaged");
 				return false;
 			}
 
-			// False positives may be possible if a player is toggling light switches before their client receives the StartMeeting RPC so we silent flag
-			// Maybe we can check to see what state the meeting is in, and if it is after the meeting was animated then flag the player?
+
+
 			if(MeetingHud.Instance)
 			{
 				Centro.Log.LogInfo($"Blocked switch update from {player.Data.PlayerName} as there is a currently active meeting");

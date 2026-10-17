@@ -16,7 +16,7 @@ namespace CentroFeatures.ui.sections
 			}
 			else
 			{
-				// We don't want the position that includes the player's collider from PlayerControl::GetTruePosition()
+
 				Vector2 position = PlayerControl.LocalPlayer.transform.position;
 
 				GUILayout.Label($"Current Map: {Utilities.GetCurrentMap()}\nCurrent Position:\nX: {position.x:F2}\nY: {position.y:F2}");

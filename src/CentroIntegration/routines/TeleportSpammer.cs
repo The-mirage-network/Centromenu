@@ -50,8 +50,8 @@ namespace CentroFeatures.routines
 			if(enabled) targets.Add(int.MaxValue);
 			Enabled = enabled;
 
-			// OnEnable validates that a match is active. Do not show a success
-			// notification if that validation disabled the routine again.
+
+
 			if(enabled)
 			{
 				if(Enabled && IsGlobal)
@@ -69,8 +69,8 @@ namespace CentroFeatures.routines
 			bool wasTargeted = IsDirectTarget(player);
 			if(!IsGlobal && wasTargeted == enabled) return;
 
-			// A direct player selection replaces global mode so the selected player,
-			// including the local player, becomes the only flood target.
+
+
 			if(IsGlobal) targets.Clear();
 
 			if(enabled)

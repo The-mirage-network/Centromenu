@@ -11,8 +11,8 @@ namespace CentroFeatures.modules.troll
 
 		public bool ExposeOnMurder { get; set; } = true;
 		public bool ExposeOnShapeshift { get; set; } = true;
-		// Only triggers on vanish and not unvanish
-		// The unvanish animation is much shorter so once everyone gets teleported they might not notice the cloud
+
+
 		public bool ExposeOnPhantom { get; set; } = true;
 
 		private void OnPlayerMurder(PlayerControl murderer, PlayerControl target, MurderResultFlags flags)
@@ -78,12 +78,12 @@ namespace CentroFeatures.modules.troll
 				float distance = Vector2.Distance(player.transform.position, vent.transform.position);
 				Centro.Log.LogMessage($"Vent ID {vent.Id} has a distance of {distance}");
 
-				// If the kill is too far away from the vent, then the teleported players will not be able to see the kill
-				// If the kill is too close, then players will not be able to determine who killed in the stack
+
+
 				if(distance < minDistance || distance > maxDistance) continue;
 
-				// We also want to make sure that there isn't an object that would block the teleported player's view to the kill
-				// Not perfect, as a lot of objects allow you to see through them
+
+
 				if(PhysicsHelpers.AnythingBetween(player.Collider, player.Collider.bounds.center, vent.transform.position, Constants.ShipOnlyMask, false)) continue;
 
 				return vent;

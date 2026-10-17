@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Centromenu;
 
-/// <summary>
-/// Replaces only the startup menu's vanilla backdrop with Centro artwork.
-/// </summary>
+
+
+
 [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
 public static class MainMenuBackgroundPatch
 {

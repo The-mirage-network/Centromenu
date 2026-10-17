@@ -8,14 +8,14 @@ using System.Linq;
 
 namespace CentroFeatures.modules.host
 {
-	// Official servers only accept authoritative gameplay RPCs from the lobby host.
-	// This relay lets a Centro host explicitly opt in to performing those actions for
-	// other Centro clients without making the requesting client send a host-only RPC.
+
+
+
 	internal class HostActionRelay : Module
 	{
 		private const byte RequestRpc = 252;
 		private const byte ResponseRpc = 253;
-		private const uint ProtocolMagic = 0x48594452; // "HYDR"
+		private const uint ProtocolMagic = 0x48594452;
 		private const byte ProtocolVersion = 2;
 
 		private enum Action : byte

@@ -22,8 +22,8 @@ namespace CentroFeatures.modules.roles
 			}
 		}
 
-		// PlayerControl::CmdCheckRevertShapeshift calls the PlayerControl::CmdCheckShapeshift function which we patch above, however the function is inlined
-		// so we have to patch PlayerControl::CmdCheckRevertShapeshift as well
+
+
 		[HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CmdCheckRevertShapeshift))]
 		class RevertShapeshift
 		{

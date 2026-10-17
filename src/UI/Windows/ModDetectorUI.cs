@@ -9,10 +9,10 @@ using UnityEngine;
 
 namespace Centromenu;
 
-/// <summary>
-/// Standalone plugin manager window. Deletions are delegated to a hidden helper
-/// which waits for the current Among Us process to exit before touching files.
-/// </summary>
+
+
+
+
 public sealed class ModDetectorUI : MonoBehaviour
 {
     private const int WindowWidth = 620;

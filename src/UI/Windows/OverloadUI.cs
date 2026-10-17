@@ -19,7 +19,7 @@ public class OverloadUI : MonoBehaviour
     private GUIStyle _normalButtonStyle;
     private GUIStyle _logStyle;
 
-    // Overload Console elements
+
     private static Vector2 _scrollPosition = Vector2.zero;
     private static List<string> _logEntries = new();
     private const int MaxLogEntries = 300;
@@ -80,9 +80,9 @@ public class OverloadUI : MonoBehaviour
             }
         }
 
-        // The HashSet swap (currentTargets <-> _tmpTargets) can only be done if isPlayer
-        // Otherwise currentTargets gets cleared too early in endgame / disconnect with overload on,
-        // causing the STOP message to log the wrong total count
+
+
+
 
         if (Utils.isPlayer)
         {
@@ -92,7 +92,7 @@ public class OverloadUI : MonoBehaviour
         }
         else
         {
-            // Targets are cleared here if STOP log is done / unneeded (overload off)
+
 
             if (!CheatToggles.runOverload)
             {
@@ -305,9 +305,9 @@ public class OverloadUI : MonoBehaviour
             LogConsole($"> <b><color=#{colorStr}>STOP : [{numSuccesses} / {total}] Kicked{extraStr}</color></b>");
         }
 
-        // runOverload must be toggled off after STOP message has been logged
-        // Otherwise currentTargets gets cleared too early during disconnect with overload on,
-        // causing the STOP message to log the wrong total count
+
+
+
 
         CheatToggles.runOverload = false;
 
@@ -342,9 +342,9 @@ public class OverloadUI : MonoBehaviour
             {
                 if (isTarget)
                 {
-                    // If the target being removed was enabled by a filter, that filter is disabled as well
-                    // Any other targets added by the same filter are re-added as custom targets so only
-                    // the intended target is removed
+
+
+
 
                     HashSet<OverloadHandler.TargetType> targetTypes = playerTarget.targetTypes;
 
@@ -379,11 +379,11 @@ public class OverloadUI : MonoBehaviour
                 }
             }
 
-            // Reset UI color
+
             GUI.backgroundColor = standardBackgroundColor;
             GUI.contentColor = standardContentColor;
 
-            // UI shows rows of 3 buttons (1 button per player)
+
             if (num % 3 == 0 && num < playerCount)
             {
                 GUILayout.EndHorizontal();
@@ -424,10 +424,10 @@ public class OverloadUI : MonoBehaviour
             StartOverload();
         }
 
-        // Reset UI color
+
         GUI.backgroundColor = standardBackgroundColor;
 
-        // Utils.isPlayer check is unnecessary as MenuUI check already enforces it for runOverload
+
         bool stopEnabled = CheatToggles.runOverload;
 
         Color stopBackgroundColor = Color.red;
@@ -438,7 +438,7 @@ public class OverloadUI : MonoBehaviour
             StopOverload();
         }
 
-        // Reset UI color
+
         GUI.backgroundColor = standardBackgroundColor;
     }
 

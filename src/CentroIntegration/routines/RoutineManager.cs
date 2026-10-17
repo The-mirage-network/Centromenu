@@ -37,7 +37,7 @@ namespace CentroFeatures.routines
 			}
 		}
 
-		// Return a dictionary of each routine with its name, and another dictionary with names and values of each property
+
 		public Dictionary<string, Dictionary<string, JsonElement>> GetConfigData()
 		{
 			Dictionary<string, Dictionary<string, JsonElement>> routineConfig = new Dictionary<string, Dictionary<string, JsonElement>>();

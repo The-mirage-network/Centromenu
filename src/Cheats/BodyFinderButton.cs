@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Centromenu;
 
-/// <summary>
-/// A second report button that leads the local player to the nearest
-/// unreported body, while leaving the game's normal report flow intact.
-/// </summary>
+
+
+
+
 public static class BodyFinderButton
 {
     private const string ButtonName = "Centromenu_BodyFinderButton";
@@ -39,8 +39,8 @@ public static class BodyFinderButton
             return;
         }
 
-        // Keep the cloned ReportButton behavior so a click uses ReportClosest(),
-        // including all of Among Us' ordinary reporting checks and meeting flow.
+
+
         if (GraphicField?.GetValue(_button) is SpriteRenderer graphic)
         {
             graphic.sprite = Utils.LoadSprite(IconResource, 1000f);
@@ -79,8 +79,8 @@ public static class BodyFinderButton
             return;
         }
 
-        // Match the game's body-report radius. The cloned ReportButton performs
-        // the final normal ReportClosest() validation when it is clicked.
+
+
         var distance = Vector2.Distance(localPlayer.GetTruePosition(), nearestBody.TruePosition);
         _button.SetActive(distance <= localPlayer.MaxReportDistance);
     }

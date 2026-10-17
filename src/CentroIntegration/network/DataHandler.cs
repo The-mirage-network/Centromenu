@@ -9,10 +9,10 @@ namespace CentroFeatures.network
 {
 	internal class DataHandler
 	{
-		// On Vanilla servers, messages are limited to at most 1201 bytes
-		// On Modded Nikocat servers, messages are limited to at most 1400 bytes
-		// Messages shouldn't greater than 1500 bytes anyway, as at that point messages will likely not be received by some clients due to exceeding MTU size
-		// 1400 bytes seems to be the sweet spot, as it is enough to support modded servers, and also enough to prevent attacks with large messages
+
+
+
+
 		public static readonly int MAX_MESSAGE_LENGTH = 1400;
 
 		[HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.HandleGameData))]

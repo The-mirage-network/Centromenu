@@ -5,10 +5,10 @@ namespace CentroFeatures.modules.self
 {
 	internal class AlwaysShowTaskAnimations : Module
 	{
-		// When PlayerControl::RpcPlayAnimation or PlayerControl::RpcSetScanner is called, they check if visual tasks are on before sending the RPC
-		// If we want to be able to send those RPCs even with visual tasks are off, then we will need to reimplement those functions
-		// We could just patch LogicOptionsNormal::GetVisualTasks and LogicOptionsHnS::GetVisualTasks, however the latter is optimized out by the Il2Cpp compiler so our patch won't actually get applied
-		// meaning this will only show task animations on normal games and not hide and seek as well
+
+
+
+
 		public AlwaysShowTaskAnimations() : base("AlwaysShowTaskAnimations") { }
 
 		private static AlwaysShowTaskAnimations Instance

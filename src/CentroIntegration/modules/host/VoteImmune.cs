@@ -17,8 +17,8 @@ namespace CentroFeatures.modules.host
 
 			Centro.Log.LogMessage($"{voter.PlayerName} voted for a vote immune player, changing their vote to Skip");
 
-			// Find the player that voted for the vote immune player, and make them change their vote to Skip
-			// Democracy at its finest :P
+
+
 			PlayerVoteArea voteArea = MeetingHud.Instance.playerStates.FirstOrDefault(area => area.PlayerId == voter.PlayerId);
 			if(voteArea == null)
 			{
@@ -26,16 +26,16 @@ namespace CentroFeatures.modules.host
 				return;
 			}
 
-			voteArea.VotedForId = 253; // Skip
+			voteArea.VotedForId = 253;
 
-			// If we are not the host, and we are in a host-authoritative lobby
-			// then make the host override their stored VoteStates
+
+
 			if(!AmongUsClient.Instance.AmHost && !Utilities.IsAnticheatPresent())
 			{
 				Centro.Log.LogMessage("Overriding the host's stored VoteState");
 
 				MessageWriter writer = MessageWriter.Get(SendOption.None);
-				writer.WritePacked(1); // VoteStates length
+				writer.WritePacked(1);
 				writer.StartMessage(voter.PlayerId);
 				voteArea.Serialize(writer);
 				writer.EndMessage();

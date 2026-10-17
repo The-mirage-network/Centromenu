@@ -8,9 +8,9 @@ using UnityEngine.UI;
 
 namespace Centromenu;
 
-/// <summary>
-/// Shared game-state API and owner of Centro's non-modal notification overlay.
-/// </summary>
+
+
+
 public sealed class CentroAPI : MonoBehaviour
 {
     private const float DefaultDuration = 4f;

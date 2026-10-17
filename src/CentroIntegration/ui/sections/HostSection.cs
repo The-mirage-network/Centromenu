@@ -49,7 +49,7 @@ namespace CentroFeatures.ui.sections
 			GUILayout.BeginHorizontal();
 			if(GUILayout.Button("Force Crewmate Victory"))
 			{
-				// Just in case the user has this enabled
+
 				ModuleManager.disableGameEnd.Enabled = false;
 
 				GameManager.Instance.RpcEndGame(GameOverReason.CrewmatesByTask, false);
@@ -58,7 +58,7 @@ namespace CentroFeatures.ui.sections
 
 			if(GUILayout.Button("Force Imposter Victory"))
 			{
-				// Just in case the user has this enabled
+
 				ModuleManager.disableGameEnd.Enabled = false;
 
 				GameManager.Instance.RpcEndGame(GameOverReason.ImpostorsByKill, false);
@@ -157,15 +157,15 @@ namespace CentroFeatures.ui.sections
 
 		private void ForceStartGame()
 		{
-			// Local lobbies are the only lobbies where we can start the game without host
+
 			if(AmongUsClient.Instance.NetworkMode != NetworkModes.LocalGame && !AmongUsClient.Instance.AmHost)
 			{
 				Centro.notifications.Send("Start Game", "This feature can only be used if you are the host of the lobby.");
 				return;
 			}
 
-			// The vanilla anticheat prevents players from sending a ClientReady message more than once
-			// If we attempt to start the game twice, then all players will send another ClientReady message, and the entire lobby will be kicked
+
+
 			if(AmongUsClient.Instance.GameState == InnerNetClient.GameStates.Started && Utilities.IsAnticheatPresent())
 			{
 				Centro.notifications.Send("Start Game", "The game has already been started.");
@@ -174,8 +174,8 @@ namespace CentroFeatures.ui.sections
 
 			AmongUsClient.Instance.StartGame();
 
-			// PlayerControl::RpcSetRole has checks against playing the intro cutscene in Freeplay
-			// To avoid a blackscreen in Freeplay, we force the intro cutscene to start
+
+
 			if(AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay)
 			{
 				HudManager.Instance.StartCoroutine(HudManager.Instance.CoShowIntro());
@@ -198,8 +198,8 @@ namespace CentroFeatures.ui.sections
 				return;
 			}
 
-			// On +25 modded protocol lobbies, we are able to send SetColor RPCs as non-host
-			// however we are still affected by message packing limits
+
+
 			int packingLimit = AmongUsClient.Instance.GetMaxMessagePackingLimit();
 			BatchedMessage batch = new BatchedMessage();
 
@@ -269,9 +269,9 @@ namespace CentroFeatures.ui.sections
 		{
 			Centro.Log.LogInfo($"Attempting to spawn in map id {mapId}");
 
-			// The Utilities::IsAnticheatPresent function does not work perfectly here
-			// We are able to spawn in any maps we want without host in local, or even skeld.net lobbies
-			// however +25 modded protocol lobbies, while having much of their anticheat checks disabled, still has checks against non-hosts sending spawn messages
+
+
+
 			if(Utilities.IsAnticheatPresent() && !AmongUsClient.Instance.AmHost)
 			{
 				Centro.notifications.Send("Spawn Map", "This feature can only be used if you are the host of the lobby.");
@@ -347,7 +347,7 @@ namespace CentroFeatures.ui.sections
 
 				Utilities.ShapeshiftPlayer(player, target);
 
-				// This function can send up to 42 reliable messages at once, so we need to implement a delay to avoid getting disconnected
+
 				yield return Effects.Wait(0.05f);
 			}
 		}

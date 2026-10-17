@@ -12,11 +12,11 @@ using UnityEngine;
 
 namespace Centromenu;
 
-/// <summary>
-/// Resolves and plays the Audiomack track requested for meetings. Audiomack's
-/// embed URL is HTML, so its signed audio URL must be requested immediately
-/// before playback.
-/// </summary>
+
+
+
+
+
 public sealed class MeetingMusicPlayer : MonoBehaviour
 {
     private const string TrackId = "11554965";
@@ -58,8 +58,8 @@ public sealed class MeetingMusicPlayer : MonoBehaviour
 
     private void Update()
     {
-        // A disconnect or lobby exit can destroy the meeting UI without calling
-        // MeetingHud.Close. Stop immediately in that case as well.
+
+
         if (_audioSource && !MeetingHud.Instance)
         {
             StopMeetingMusic();

@@ -12,7 +12,7 @@ namespace CentroFeatures.ui.sections
 
 		public override void Render()
 		{
-			// GUILayout.Label($"Texture 2D memory usage: {Texture2D.currentTextureMemory}");
+
 			Centro.notifications.disableNotifications = GUILayout.Toggle(Centro.notifications.disableNotifications, "Disable Notifications");
 
 			GUILayout.Label($"Primary Color: {Styles.primaryColor}");
@@ -56,7 +56,7 @@ namespace CentroFeatures.ui.sections
 			if(GUILayout.Button("New Config"))
 			{
 				string configName = Centro.config.GetUnusedConfigName();
-				// I doubt anyone will actually have 255 configs with the pattern of "Centro [1-255]", but just in case...
+
 				if(configName == null)
 				{
 					Centro.notifications.Send("Config", "Failed to find an unused config name.");

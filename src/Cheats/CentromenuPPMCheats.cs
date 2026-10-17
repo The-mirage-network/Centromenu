@@ -27,14 +27,14 @@ public static class CentromenuPPMCheats
 
             if (!_reportBodyActive)
             {
-                // Close any player pick menus already open & their cheats
+
                 if (PlayerPickMenu.playerpickMenu != null)
                 {
                     PlayerPickMenu.playerpickMenu.Close();
                     CheatToggles.DisablePPMCheats("reportBody");
                 }
 
-                // Player pick menu to choose any body (alive or dead) and report it
+
                 PlayerPickMenu.OpenPlayerPickMenu(Utils.GetAllPlayerData(), (Action) (() =>
                 {
                     PlayerControl.LocalPlayer.CmdReportDeadBody(PlayerPickMenu.targetPlayerData);
@@ -43,7 +43,7 @@ public static class CentromenuPPMCheats
                 _reportBodyActive = true;
             }
 
-            // Deactivate cheat if menu is closed
+
             if (PlayerPickMenu.playerpickMenu == null)
             {
                 CheatToggles.reportBody = false;
@@ -65,7 +65,7 @@ public static class CentromenuPPMCheats
         {
             if (!_ejectPlayerActive)
             {
-                // Close any player pick menus already open & their cheats
+
                 if (PlayerPickMenu.playerpickMenu != null)
                 {
                     PlayerPickMenu.playerpickMenu.Close();
@@ -87,7 +87,7 @@ public static class CentromenuPPMCheats
                     }
                 }
 
-                // Player pick menu to choose any living player and eject them during meeting
+
                 PlayerPickMenu.OpenPlayerPickMenu(playerInfo, (Action)(() =>
                 {
                     NetworkedPlayerInfo playerToEject = PlayerPickMenu.targetPlayerData;
@@ -97,7 +97,7 @@ public static class CentromenuPPMCheats
                 _ejectPlayerActive = true;
             }
 
-            // Deactivate cheat if menu is closed
+
             if (PlayerPickMenu.playerpickMenu == null)
             {
                 CheatToggles.ejectPlayer = false;
@@ -115,7 +115,7 @@ public static class CentromenuPPMCheats
         {
             if (!_killPlayerActive)
             {
-                // Close any player pick menus already open & their cheats
+
                 if (PlayerPickMenu.playerpickMenu != null)
                 {
                     PlayerPickMenu.playerpickMenu.Close();
@@ -129,7 +129,7 @@ public static class CentromenuPPMCheats
                     return;
                 }
 
-                // Player pick menu made for killing any player by sending a successful MurderPlayer RPC call
+
                 PlayerPickMenu.OpenPlayerPickMenu(Utils.GetAllPlayerData(), (Action)(() =>
                 {
                     Utils.MurderPlayer(PlayerPickMenu.targetPlayerData.Object, MurderResultFlags.Succeeded);
@@ -138,7 +138,7 @@ public static class CentromenuPPMCheats
                 _killPlayerActive = true;
             }
 
-            // Deactivate cheat if menu is closed
+
             if (PlayerPickMenu.playerpickMenu == null)
             {
                 CheatToggles.killPlayer = false;
@@ -156,7 +156,7 @@ public static class CentromenuPPMCheats
         {
             if (!_telekillPlayerActive)
             {
-                // Close any player pick menus already open & their cheats
+
                 if (PlayerPickMenu.playerpickMenu != null)
                 {
                     PlayerPickMenu.playerpickMenu.Close();
@@ -170,8 +170,8 @@ public static class CentromenuPPMCheats
                     return;
                 }
 
-                // Player pick menu made for killing any player by sending a successful MurderPlayer RPC call
-                // and immediatly teleporting back to original position
+
+
                 PlayerPickMenu.OpenPlayerPickMenu(Utils.GetAllPlayerData(), (Action)(() =>
                 {
                     var oldPos = PlayerControl.LocalPlayer.GetTruePosition();
@@ -182,7 +182,7 @@ public static class CentromenuPPMCheats
                 _telekillPlayerActive = true;
             }
 
-            // Deactivate cheat if menu is closed
+
             if (PlayerPickMenu.playerpickMenu == null)
             {
                 CheatToggles.telekillPlayer = false;
@@ -200,7 +200,7 @@ public static class CentromenuPPMCheats
         {
             if (!_teleportPlayerActive)
             {
-                // Close any player pick menus already open & their cheats
+
                 if (PlayerPickMenu.playerpickMenu != null)
                 {
                     PlayerPickMenu.playerpickMenu.Close();
@@ -209,7 +209,7 @@ public static class CentromenuPPMCheats
 
                 List<NetworkedPlayerInfo> playerDataList = new List<NetworkedPlayerInfo>();
 
-                // All players are saved to playerList apart from LocalPlayer
+
                 foreach (var player in PlayerControl.AllPlayerControls)
                 {
                     if (!player.AmOwner)
@@ -218,7 +218,7 @@ public static class CentromenuPPMCheats
                     }
                 }
 
-                // Player pick menu made for teleporting LocalPlayer to any player's position
+
                 PlayerPickMenu.OpenPlayerPickMenu(playerDataList, (Action)(() =>
                 {
                     PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(PlayerPickMenu.targetPlayerData.Object.transform.position);
@@ -227,7 +227,7 @@ public static class CentromenuPPMCheats
                 _teleportPlayerActive = true;
             }
 
-            // Deactivate cheat if menu is closed
+
             if (PlayerPickMenu.playerpickMenu == null)
             {
                 CheatToggles.teleportPlayer = false;
@@ -246,7 +246,7 @@ public static class CentromenuPPMCheats
 
             if (!_setFakeRoleActive)
             {
-                // Close any player pick menus already open & their cheats
+
                 if (PlayerPickMenu.playerpickMenu != null)
                 {
                     PlayerPickMenu.playerpickMenu.Close();
@@ -257,7 +257,7 @@ public static class CentromenuPPMCheats
                 {
                     if (PlayerControl.LocalPlayer.Data.IsDead)
                     {
-                        // Log the originally assigned ghost role
+
                         if (_oldGhostRole == null)
                         {
                             _oldGhostRole = PlayerControl.LocalPlayer.Data.RoleType;
@@ -265,7 +265,7 @@ public static class CentromenuPPMCheats
                     }
                     else
                     {
-                        // Log the originally assigned role
+
                         if (_oldRole == null)
                         {
                             _oldRole = PlayerControl.LocalPlayer.Data.RoleType;
@@ -275,9 +275,9 @@ public static class CentromenuPPMCheats
 
                 List<NetworkedPlayerInfo> playerDataList = new List<NetworkedPlayerInfo>();
 
-                // Keep every living role visible in the picker. The previous filters hid
-                // roles that were not assigned at match start; visibility does not bypass
-                // host or anti-cheat validation when a role is selected.
+
+
+
                 playerDataList.Add(PlayerPickMenu.CustomPPMChoice("Shapeshifter", OutfitPreset.Shapeshifter, Utils.GetBehaviourByRoleType(RoleTypes.Shapeshifter)));
                 playerDataList.Add(PlayerPickMenu.CustomPPMChoice("Phantom", OutfitPreset.Phantom, Utils.GetBehaviourByRoleType(RoleTypes.Phantom)));
                 playerDataList.Add(PlayerPickMenu.CustomPPMChoice("Viper", OutfitPreset.Viper, Utils.GetBehaviourByRoleType(RoleTypes.Viper)));
@@ -291,7 +291,7 @@ public static class CentromenuPPMCheats
                 playerDataList.Add(PlayerPickMenu.CustomPPMChoice("Detective", OutfitPreset.Detective, Utils.GetBehaviourByRoleType(RoleTypes.Detective)));
                 playerDataList.Add(PlayerPickMenu.CustomPPMChoice("Crewmate", OutfitPreset.Crewmate, Utils.GetBehaviourByRoleType(RoleTypes.Crewmate)));
 
-                // Ghost roles are visible whenever the local player is already dead.
+
                 if (PlayerControl.LocalPlayer.Data.IsDead)
                 {
                     playerDataList.Add(PlayerPickMenu.CustomPPMChoice("Guardian Angel", OutfitPreset.GuardianAngel, Utils.GetBehaviourByRoleType(RoleTypes.GuardianAngel)));
@@ -302,7 +302,7 @@ public static class CentromenuPPMCheats
                     playerDataList.Add(PlayerPickMenu.CustomPPMChoice("Influencer", OutfitPreset.SpiritGuide, Utils.GetBehaviourByRoleType(RoleTypes.SpiritGuide)));
                 }
 
-                // Player pick menu made for changing your roles with a custom choice list
+
                 PlayerPickMenu.OpenPlayerPickMenu(playerDataList, (Action) (() =>
                 {
                     if (PlayerControl.LocalPlayer.Data.IsDead)
@@ -311,7 +311,7 @@ public static class CentromenuPPMCheats
                         {
                             RoleManager.Instance.SetRole(PlayerControl.LocalPlayer, PlayerPickMenu.targetPlayerData.Role.Role);
                         }
-                        else // Prevent accidential revives
+                        else
                         {
                             if (PlayerPickMenu.targetPlayerData.Role.TeamType == RoleTeamTypes.Impostor)
                             {
@@ -325,19 +325,19 @@ public static class CentromenuPPMCheats
                     }
                     else
                     {
-                        /* if (PlayerPickMenu.targetPlayerData.Role.Role == RoleTypes.Shapeshifter && oldRole != RoleTypes.Shapeshifter){
 
-                            Utils.showPopup("\n<size=125%>Changing into the Shapeshifter role is not recommended\nsince shapeshifting will get you kicked by the anticheat");
 
-                        } else if (PlayerPickMenu.targetPlayerData.Role.Role == RoleTypes.Noisemaker && oldRole != RoleTypes.Noisemaker){
 
-                            Utils.showPopup("\n<size=125%>Changing into the Noisemaker role is not recommended\nsince dying won't trigger the alert for other players");
 
-                        } else if (oldRole == RoleTypes.Noisemaker){
 
-                            Utils.showPopup("\n<size=125%>Your \"real\" role is still Noisemaker\nso other players will still see the alert when you die");
 
-                        } */
+
+
+
+
+
+
+
 
                         RoleManager.Instance.SetRole(PlayerControl.LocalPlayer, PlayerPickMenu.targetPlayerData.Role.Role);
                     }
@@ -346,7 +346,7 @@ public static class CentromenuPPMCheats
                 _setFakeRoleActive = true;
             }
 
-            // Deactivate cheat if menu is closed
+
             if (PlayerPickMenu.playerpickMenu == null)
             {
                 CheatToggles.setFakeRole = false;
@@ -376,7 +376,7 @@ public static class CentromenuPPMCheats
             if (!_setFakeAliveActive)
             {
 
-                // Close any player pick menus already open & their cheats
+
                 if (PlayerPickMenu.playerpickMenu != null)
                 {
                     PlayerPickMenu.playerpickMenu.Close();
@@ -388,7 +388,7 @@ public static class CentromenuPPMCheats
                 playerDataList.Add(PlayerPickMenu.CustomPPMChoice("Alive", OutfitPreset.Crewmate, Utils.GetBehaviourByRoleType(RoleTypes.Crewmate)));
                 playerDataList.Add(PlayerPickMenu.CustomPPMChoice("Dead", OutfitPreset.Dead, Utils.GetBehaviourByRoleType(RoleTypes.CrewmateGhost)));
 
-                // Player pick menu made for changing your alive state with a custom choice list
+
                 PlayerPickMenu.OpenPlayerPickMenu(playerDataList, (Action) (() =>
                 {
                     if (PlayerPickMenu.targetPlayerData.Role.IsDead)
@@ -404,7 +404,7 @@ public static class CentromenuPPMCheats
                 _setFakeAliveActive = true;
             }
 
-            // Deactivate cheat if menu is closed
+
             if (PlayerPickMenu.playerpickMenu == null)
             {
                 CheatToggles.setFakeAlive = false;
@@ -445,7 +445,7 @@ public static class CentromenuPPMCheats
                 playerDataList.Add(PlayerPickMenu.CustomPPMChoice("Detective", OutfitPreset.Detective, Utils.GetBehaviourByRoleType(RoleTypes.Detective)));
                 playerDataList.Add(PlayerPickMenu.CustomPPMChoice("Crewmate", OutfitPreset.Crewmate, Utils.GetBehaviourByRoleType(RoleTypes.Crewmate)));
 
-                // Player pick menu made for forcing a role onto another player
+
                 PlayerPickMenu.OpenPlayerPickMenu(playerDataList, (Action)(() =>
                 {
                     CheatToggles.forcedRole = PlayerPickMenu.targetPlayerData.Role.Role;
@@ -454,7 +454,7 @@ public static class CentromenuPPMCheats
                 _forceRoleActive = true;
             }
 
-            // Deactivate cheat if menu is closed
+
             if (PlayerPickMenu.playerpickMenu == null)
             {
                 CheatToggles.forceRole = false;
@@ -478,7 +478,7 @@ public static class CentromenuPPMCheats
             if (!_spectateActive)
             {
 
-                // Close any player pick menus already open & their cheats
+
                 if (PlayerPickMenu.playerpickMenu != null)
                 {
                     PlayerPickMenu.playerpickMenu.Close();
@@ -487,7 +487,7 @@ public static class CentromenuPPMCheats
 
                 List<NetworkedPlayerInfo> playerDataList = new List<NetworkedPlayerInfo>();
 
-                // All players are saved to playerList apart from LocalPlayer
+
                 foreach (var player in PlayerControl.AllPlayerControls)
                 {
                     if (!player.AmOwner)
@@ -496,7 +496,7 @@ public static class CentromenuPPMCheats
                     }
                 }
 
-                // Player pick menu made for spectating the targeted player
+
                 PlayerPickMenu.OpenPlayerPickMenu(playerDataList, (Action) (() =>
                 {
                     Camera.main.gameObject.GetComponent<FollowerCamera>().SetTarget(PlayerPickMenu.targetPlayerData.Object);
@@ -504,13 +504,13 @@ public static class CentromenuPPMCheats
 
                 _spectateActive = true;
 
-                PlayerControl.LocalPlayer.moveable = false; // Can't move while spectating
+                PlayerControl.LocalPlayer.moveable = false;
 
-                CheatToggles.freecam = false; // Disable incompatible cheats while spectating
+                CheatToggles.freecam = false;
 
             }
 
-            // Deactivate cheat if menu is closed and no one is getting spectated
+
             if (PlayerPickMenu.playerpickMenu == null && Camera.main.gameObject.GetComponent<FollowerCamera>().Target == PlayerControl.LocalPlayer)
             {
                 CheatToggles.spectate = false;
@@ -519,7 +519,7 @@ public static class CentromenuPPMCheats
         }
         else
         {
-            // Deactivate cheat when it is disabled from the Centromenu GUI
+
             if (_spectateActive)
             {
                 _spectateActive = false;

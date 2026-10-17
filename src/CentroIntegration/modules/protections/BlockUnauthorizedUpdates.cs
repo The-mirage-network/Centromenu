@@ -4,9 +4,9 @@ namespace CentroFeatures.modules.protections
 {
 	internal class BlockUnauthorizedUpdates : Module
 	{
-		// The CloseDoorsOfType and UpdateSystem RPCs should only ever be sent to the host
-		// It is possible for a non-host to send system updates to anyone they want
-		// and cause a desync between our game state and the actual game state
+
+
+
 		public BlockUnauthorizedUpdates() : base("BlockUnauthorizedUpdates")
 		{
 			base.Enabled = true;

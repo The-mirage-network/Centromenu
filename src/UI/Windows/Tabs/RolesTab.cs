@@ -73,7 +73,7 @@ public class RolesTab : ITab
             GUILayout.Label($"Kill Distance: {CheatToggles.killDistanceMultiplier:0.0}x");
         }
 
-        // CheatToggles.impostorTasks = GUILayout.Toggle(CheatToggles.impostorTasks, " Allow Tasks");
+
     }
 
     private void DrawShapeshifter()

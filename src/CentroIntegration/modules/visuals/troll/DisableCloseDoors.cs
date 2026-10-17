@@ -22,7 +22,7 @@ namespace CentroFeatures.modules.troll
 			}
 		}
 
-		// While we cant block doors from actually being closed as non-host, we can just fix the doors as soon as they get locked
+
 		[HarmonyPatch(typeof(DoorsSystemType), nameof(DoorsSystemType.Deserialize))]
 		class DoorsDeserialize
 		{
@@ -35,7 +35,7 @@ namespace CentroFeatures.modules.troll
 				int systems = (int)reader.ReadByte();
 				if(systems > ShipStatus.Instance.Systems.Count || systems > reader.BytesRemaining) goto end;
 
-				// One byte identifier for the systemtype, and a float (four bytes) for system cooldown
+
 				reader.Position += systems * (1 + 4);
 
 				int packingLimit = AmongUsClient.Instance.GetMaxMessagePackingLimit();

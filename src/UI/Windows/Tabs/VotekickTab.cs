@@ -8,13 +8,13 @@ namespace Centromenu;
 public sealed class VotekickTab : ITab
 {
     private const int NoPlayerSelected = int.MinValue;
-    // A standard 15-player lobby has at most 14 remote targets. Sending one
-    // vote every 150 ms keeps the full batch under two seconds while ensuring
-    // every command is handled on a separate update/network-send opportunity.
+
+
+
     private const float VoteSubmitInterval = 0.15f;
 
-    // MenuUI can be recreated when leaving a lobby, so keep this state static
-    // until the player has had a chance to rejoin from the main menu.
+
+
     private static string _rejoinCode = string.Empty;
     private static bool _rejoinAvailable;
 

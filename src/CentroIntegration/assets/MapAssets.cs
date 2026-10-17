@@ -36,9 +36,9 @@ namespace CentroFeatures.assets
 
 		public static readonly SortedDictionary<int, string> miraVents = new SortedDictionary<int, string>()
 		{
-			// Mira HQ has no vent with the ID of 0
-			// Fortebass' explanation on why this is the case can be found at https://github.com/roobscoob/among-us-protocol/blob/master/images/mirahq_vents_quote.png
-			// Very informative as you can see... At least we know why the game uses 255 as a default value frequently in the code
+
+
+
 			{ 1, "Balcony" },
 			{ 2, "Above Cafeteria" },
 			{ 3, "Reactor" },
@@ -106,9 +106,9 @@ namespace CentroFeatures.assets
 			{
 				MapNames.Skeld or MapNames.Dleks => skeldAnimations,
 				MapNames.Polus => polusAnimations,
-				// These maps do not have any task animations, other than medbay scan
+
 				MapNames.MiraHQ or MapNames.Airship or MapNames.Fungle => [],
-				// If we do not any known animations for the current map then just default to the Skeld ones
+
 				_ => skeldAnimations
 			};
 		}
@@ -124,7 +124,7 @@ namespace CentroFeatures.assets
 				MapNames.Polus => polusVents,
 				MapNames.Airship => airshipVents,
 				MapNames.Fungle => fungleVents,
-				// If we do not any known vents for the current map then just default to the Skeld ones
+
 				_ => skeldVents
 			};
 		}

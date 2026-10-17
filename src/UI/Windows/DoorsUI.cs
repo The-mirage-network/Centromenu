@@ -14,7 +14,7 @@ public class DoorsUI : MonoBehaviour
 
     private void Start()
     {
-        // Instantiate 2D area of DoorsUI
+
         windowRect = new(
             Screen.width / 2f - windowWidth / 2f,
             Screen.height / 2f - windowHeight / 2f,
@@ -110,7 +110,7 @@ public class DoorsUI : MonoBehaviour
             }
             else
             {
-                // Clear spam lists if not host
+
                 if (_doorsToSpamClose.Count != 0 || _doorsToSpamOpen.Count != 0)
                 {
                     _doorsToSpamClose.Clear();
@@ -170,13 +170,13 @@ public class DoorsUI : MonoBehaviour
     {
         if (!Utils.isShip) return;
 
-        // Spam close selected doors
+
         foreach (var doorRoom in _doorsToSpamClose)
         {
             DoorsHandler.CloseDoorsInRoom(doorRoom);
         }
 
-        // Spam open selected doors
+
         var map = (MapNames)Utils.GetCurrentMapID();
 
         if (map is MapNames.Polus or MapNames.Airship or MapNames.Fungle)

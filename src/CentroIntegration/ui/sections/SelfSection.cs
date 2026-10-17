@@ -81,8 +81,8 @@ namespace CentroFeatures.ui.sections
 				Centro.Log.LogInfo($"Sent CompleteTask RPC for task {task.Id}");
 				PlayerControl.LocalPlayer.RpcCompleteTask(task.Id);
 
-				// If we want to complete more than six tasks then a delay needs to be implemented
-				// otherwise the vanilla anticheat will kick us for violating ratelimits
+
+
 				yield return Effects.Wait(0.05f);
 			}
 

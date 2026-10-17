@@ -64,8 +64,8 @@ namespace CentroFeatures.modules.protections
 
 				int oldReadPosition = reader.Position;
 
-				// The game creates an array with the size of the following value
-				// If this value is very large, then the client will attempt to allocate several gigabytes of memory
+
+
 				int arrayLength = reader.ReadPackedInt32();
 
 				if(arrayLength > 1024 || arrayLength > reader.BytesRemaining)

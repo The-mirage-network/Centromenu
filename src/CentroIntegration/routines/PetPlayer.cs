@@ -10,7 +10,7 @@ namespace CentroFeatures.routines
 	{
 		public PetPlayerRoutine() : base("PetPlayer") { }
 
-		// This can not be too low, otherwise the petting animation will snap and look unpleasant
+
 		public readonly float PET_DELAY = 0.60f;
 
 		public PlayerControl target;
@@ -27,9 +27,9 @@ namespace CentroFeatures.routines
 			Vector2 petPosition = target.transform.position;
 			petPosition.y -= PlayerControl.LocalPlayer.cosmetics.currentPet.yOffset * 2;
 
-			// The PlayerPhysics::CoPet function calls the PlayerPhysics::CancelPet function
-			// which sets PlayerControl::moveable to true, allowing the player to move again
-			// So we just reimplement the necessary parts to get our petting hand to show, and to send the Pet RPC
+
+
+
 			PlayerControl.LocalPlayer.cosmetics.CurrentPet.SetGettingPet(true, petPosition);
 			PlayerControl.LocalPlayer.cosmetics.PettingHand.StartPet(PlayerControl.LocalPlayer.cosmetics.currentPet);
 
@@ -68,8 +68,8 @@ namespace CentroFeatures.routines
 				return;
 			}
 
-			// Attempting to move will result in our petting hand following our movement
-			// To avoid unexpected behavior, we prevent the player from moving
+
+
 			PlayerControl.LocalPlayer.moveable = false;
 			PlayerControl.LocalPlayer.NetTransform.body.velocity = Vector2.zero;
 

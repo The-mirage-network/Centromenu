@@ -12,7 +12,7 @@ namespace Centromenu;
 [HarmonyPatch(typeof(Constants), nameof(Constants.GetPlatformData))]
 public static class Constants_GetPlatformData
 {
-    // Postfix patch of Constants.GetPlatformData to spoof the user's platform type
+
     public static void Postfix(ref PlatformSpecificData __result)
     {
         if (Utils.StringToPlatformType(Centromenu.spoofPlatform.Value, out Platforms? platformType))
@@ -31,7 +31,7 @@ public static class GameData_HandleDisconnect
 {
     public static HashSet<int> disconnectQueue = new();
 
-    // Prefix patch of GameData.HandleDisconnect to keep track of successful overloads
+
     public static void Prefix(PlayerControl player)
     {
         if (!CheatToggles.runOverload) return;
@@ -44,8 +44,8 @@ public static class GameData_HandleDisconnect
         if (isTarget) disconnectQueue.Add(playerData.ClientId);
     }
 
-    // Postfix patch of GameData.HandleDisconnect to keep track of successful overloads
-    // (Avoids race-condition double counting)
+
+
     public static void Postfix(PlayerControl player)
     {
         if (!CheatToggles.runOverload) return;
@@ -61,9 +61,9 @@ public static class GameData_HandleDisconnect
 
             if (CheatToggles.olLogDisconnect)
             {
-                int total = OverloadUI.currentTargets.Count // Targets still connected
-                            + OverloadUI.numSuccesses // Targets already crashed
-                            - disconnectQueue.Count; // Pending disconnect logs (Avoids race-condition double counting)
+                int total = OverloadUI.currentTargets.Count
+                            + OverloadUI.numSuccesses
+                            - disconnectQueue.Count;
 
                 string colorStr = ColorUtility.ToHtmlStringRGB(Color.green);
 
@@ -78,25 +78,25 @@ public static class GameData_HandleDisconnect
 [HarmonyPatch(typeof(FreeChatInputField), nameof(FreeChatInputField.UpdateCharCount))]
 public static class FreeChatInputField_UpdateCharCount
 {
-    // Postfix patch of FreeChatInputField.UpdateCharCount to change how charCountText displays
+
     public static void Postfix(FreeChatInputField __instance)
     {
-        // Only works if CheatToggles.longerMsgs is enabled
+
         if (!CheatToggles.longerMessages) return;
 
-        // Update charCountText to account for longer characterLimit
+
         int length = __instance.textArea.text.Length;
         __instance.charCountText.SetText($"{length}/{__instance.textArea.characterLimit}");
 
-        if (length < 90) // Under 75%
+        if (length < 90)
         {
             __instance.charCountText.color = Color.black;
         }
-        else if (length < 120) // Under 100%
+        else if (length < 120)
         {
             __instance.charCountText.color = new Color(1f, 1f, 0f, 1f);
         }
-        else // Over or equal to 100%
+        else
         {
             __instance.charCountText.color = Color.red;
         }
@@ -115,8 +115,8 @@ public static class ChatBubble_SetName
 [HarmonyPatch(typeof(SystemInfo), nameof(SystemInfo.deviceUniqueIdentifier), MethodType.Getter)]
 public static class SystemInfo_deviceUniqueIdentifier_Getter
 {
-    // Postfix patch of SystemInfo.deviceUniqueIdentifier Getter method
-    // Made to hide the user's real unique deviceId by generating a random fake one
+
+
     public static void Postfix(ref string __result)
     {
         if (!Centromenu.spoofDeviceId.Value) return;
@@ -137,7 +137,7 @@ public static class VersionShower_Start
     private static VersionShower _instance;
     private static string _originalText;
 
-    // Postfix patch of VersionShower.Start to show Centromenu version
+
     public static void Postfix(VersionShower __instance)
     {
         _instance = __instance;
@@ -169,7 +169,7 @@ public static class VersionShower_Start
 [HarmonyPatch(typeof(PingTracker), nameof(PingTracker.Update))]
 public static class PingTracker_Update
 {
-    // Postfix patch of PingTracker.Update to show Centromenu authors and colored ping text
+
     public static void Postfix(PingTracker __instance)
     {
         VersionShower_Start.UpdateText();
@@ -185,10 +185,10 @@ public static class PingTracker_Update
 
         int ping = Utils.GetPing();
         string pingText = Utils.GetColoredPingText($"PING: {ping} ms", ping);
-        // Fractional movement keeps the footer slow without making it step or stutter.
+
         float footerGradientOffset = Time.unscaledTime * 2.5f;
-        // A deep wine-to-crimson sweep gives the footer a richer signature while
-        // the smaller rose "by" keeps Centromenu and Centroscape prominent.
+
+
         string footerText = CheatToggles.hideWatermark
             ? string.Empty
             : $"<size=115%><b>{Utils.GetGradientText(
@@ -232,7 +232,7 @@ public static class PingTracker_Update
 [HarmonyPatch(typeof(DisconnectPopup), nameof(DisconnectPopup.DoShow))]
 public static class DisconnectPopup_DoShow
 {
-    // Postfix patch of DisconnectPopup.DoShow to copy lobby code to clipboard on disconnect
+
     public static void Postfix(DisconnectPopup __instance)
     {
         if (!CheatToggles.copyLobbyCodeOnDisconnect) return;
@@ -246,20 +246,20 @@ public static class DisconnectPopup_DoShow
 [HarmonyPatch(typeof(PlayerBanData), nameof(PlayerBanData.BanMinutesLeft), MethodType.Getter)]
 public static class PlayerBanData_BanMinutesLeft_Getter
 {
-    // Postfix patch of PlayerBanData.BanMinutesLeft Getter method to remove disconnect penalty
+
     public static void Postfix(PlayerBanData __instance, ref int __result)
     {
         if (!CheatToggles.avoidPenalties) return;
 
-        __instance.BanPoints = 0f; // Removes all BanPoints
-        __result = 0; // Removes all BanMinutes
+        __instance.BanPoints = 0f;
+        __result = 0;
     }
 }
 
 [HarmonyPatch(typeof(FullAccount), nameof(FullAccount.CanSetCustomName))]
 public static class FullAccount_CanSetCustomName
 {
-    // Prefix patch of FullAccount.CanSetCustomName to allow the usage of custom names
+
     public static void Prefix(ref bool canSetName)
     {
         if (CheatToggles.unlockFeatures)
@@ -272,7 +272,7 @@ public static class FullAccount_CanSetCustomName
 [HarmonyPatch(typeof(AccountManager), nameof(AccountManager.CanPlayOnline))]
 public static class AccountManager_CanPlayOnline
 {
-    // Prefix patch of AccountManager.CanPlayOnline to allow online games
+
     public static void Postfix(ref bool __result)
     {
         if (CheatToggles.unlockFeatures)
@@ -285,7 +285,7 @@ public static class AccountManager_CanPlayOnline
 [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.JoinGame))]
 public static class InnerNetClient_JoinGame
 {
-    // Prefix patch of InnerNetClient.JoinGame to allow online games
+
     public static void Prefix()
     {
         if (CheatToggles.unlockFeatures)
@@ -298,7 +298,7 @@ public static class InnerNetClient_JoinGame
 [HarmonyPatch(typeof(GameManager), nameof(GameManager.CheckTaskCompletion))]
 public static class GameManager_CheckTaskCompletion
 {
-    // Prefix patch of GameManager.CheckTaskCompletion to prevent a running game from ending
+
     public static bool Prefix(ref bool __result)
     {
         if (!CheatToggles.noGameEnd) return true;
@@ -318,11 +318,11 @@ public static class Mushroom_FixedUpdate
     }
 }
 
-// Found here: https://github.com/g0aty/SickoMenu/blob/main/hooks/PlainDoor.cpp
+
 [HarmonyPatch(typeof(DoorBreakerGame), nameof(DoorBreakerGame.Start))]
 public static class DoorBreakerGame_Start
 {
-    // Prefix patch of DoorBreakerGame.Start to automatically open a door when the player interacts with it
+
     public static bool Prefix(DoorBreakerGame __instance)
     {
         if (!CheatToggles.autoOpenDoorsOnUse) return true;
@@ -335,11 +335,11 @@ public static class DoorBreakerGame_Start
     }
 }
 
-// Found here: https://github.com/g0aty/SickoMenu/blob/main/hooks/PlainDoor.cpp
+
 [HarmonyPatch(typeof(DoorCardSwipeGame), nameof(DoorCardSwipeGame.Begin))]
 public static class DoorCardSwipeGame_Begin
 {
-    // Prefix patch of DoorCardSwipeGame.Begin to automatically open a door when the player interacts with it
+
     public static bool Prefix(DoorCardSwipeGame __instance)
     {
         if (!CheatToggles.autoOpenDoorsOnUse) return true;
@@ -352,11 +352,11 @@ public static class DoorCardSwipeGame_Begin
     }
 }
 
-// Found here: https://github.com/g0aty/SickoMenu/blob/main/hooks/PlainDoor.cpp
+
 [HarmonyPatch(typeof(MushroomDoorSabotageMinigame), nameof(MushroomDoorSabotageMinigame.Begin))]
 public static class MushroomDoorSabotageMinigame_Begin
 {
-    // Prefix patch of MushroomDoorSabotageMinigame.Begin to automatically open a door when the player interacts with it
+
     public static bool Prefix(MushroomDoorSabotageMinigame __instance)
     {
         if (!CheatToggles.autoOpenDoorsOnUse) return true;
@@ -367,36 +367,36 @@ public static class MushroomDoorSabotageMinigame_Begin
     }
 }
 
-// NEEDS FIX : Blocks usage of consoles to which impostor
-// has access to (like those to fix sabotages) when cheat is disabled
 
-// [HarmonyPatch(typeof(Console), nameof(Console.CanUse))]
-// public static class Console_CanUse
-// {
-//     // Prefix patch of Console.CanUse to allow impostors to do tasks
-//     public static void Prefix(Console __instance)
-//     {
-//         __instance.AllowImpostor = CheatToggles.impostorTasks;
-//     }
-// }
+
+
+
+
+
+
+
+
+
+
+
 
 [HarmonyPatch(typeof(IntroCutscene), "CoBegin")]
 public static class IntroCutscene_CoBegin
 {
-    // Prefix patch of IntroCutscene.CoBegin to force the LocalPlayer's role to a specified role
+
     public static void Prefix()
     {
         if (!Utils.isHost || !CheatToggles.forcedRole.HasValue) return;
 
         var forcedRole = CheatToggles.forcedRole.Value;
 
-        // If LocalPlayer already has the forced role, do nothing
+
         if (PlayerControl.LocalPlayer.Data.RoleType == forcedRole)
         {
             return;
         }
 
-        // Find a player with the forced role to swap roles with
+
         PlayerControl roleSwapTarget = null;
         foreach (var player in PlayerControl.AllPlayerControls)
         {
@@ -414,12 +414,12 @@ public static class IntroCutscene_CoBegin
     }
 }
 
-// Found here: https://github.com/g0aty/SickoMenu/blob/main/hooks/LobbyBehaviour.cpp
+
 [HarmonyPatch(typeof(GameContainer), nameof(GameContainer.SetupGameInfo))]
 public static class GameContainer_SetupGameInfo
 {
-    // Postfix patch of GameContainer.SetupGameInfo to show more information when finding a game:
-    // host name (e.g. Astral), lobby code (e.g. KLHCEG), host platform (e.g. Epic), and lobby age in minutes (e.g. 4:20)
+
+
     public static void Postfix(GameContainer __instance)
     {
         if (!CheatToggles.seeLobbyInfo) return;
@@ -433,9 +433,9 @@ public static class GameContainer_SetupGameInfo
         var capacity = $"{__instance.gameListing.PlayerCount}/{__instance.gameListing.MaxPlayers}";
         var gameCode = GameCode.IntToGameName(__instance.gameListing.GameId);
 
-        // Rebuild the complete label from the listing instead of appending to its
-        // current text. SetupGameInfo can run repeatedly for a recycled lobby row;
-        // appending here duplicated the details until they crossed the row boundary.
+
+
+
         __instance.capacity.text = $"{capacity}<size=45%>\n{trueHostName}  <#fb0>{gameCode}</color>\n" +
                                    $"<#b0f>{platform}</color>  {lobbyTime}</size>";
     }
@@ -444,7 +444,7 @@ public static class GameContainer_SetupGameInfo
 [HarmonyPatch(typeof(BanMenu), nameof(BanMenu.SetVisible))]
 public static class BanMenu_SetVisible
 {
-    // Prefix patch of BanMenu.SetVisible to always show kick and ban buttons as host
+
     public static bool Prefix(BanMenu __instance, bool show)
     {
         if (!Utils.isHost) return true;
@@ -462,7 +462,7 @@ public static class BanMenu_SetVisible
 [HarmonyPatch(typeof(IGameOptionsExtensions), nameof(IGameOptionsExtensions.GetAdjustedNumImpostors))]
 public static class IGameOptionsExtensions_GetAdjustedNumImpostors
 {
-    // Prefix patch of IGameOptionsExtensions.GetAdjustedNumImpostors to remove impostor limits
+
     public static bool Prefix(ref int __result)
     {
         if (!CheatToggles.noOptionsLimits) return true;
@@ -476,7 +476,7 @@ public static class IGameOptionsExtensions_GetAdjustedNumImpostors
 [HarmonyPatch(typeof(MatchInfoHudButton), nameof(MatchInfoHudButton.Update))]
 public static class MatchInfoHudButton_Update
 {
-    // Prefix patch of MatchInfoHudButton.Update to prevent the MatchInfo and Chat buttons from overlapping
+
     public static bool Prefix(MatchInfoHudButton __instance)
     {
         if (CheatToggles.enableChat)
@@ -493,7 +493,7 @@ public static class MatchInfoHudButton_Update
 [HarmonyPatch(typeof(PlayerPurchasesData), nameof(PlayerPurchasesData.GetPurchase))]
 public static class PlayerPurchasesData_GetPurchase
 {
-    // Postfix patch of PlayerPurchasesData.GetPurchase to unlock all cosmetics
+
     public static void Postfix(ref bool __result)
     {
         if (!CheatToggles.freeCosmetics) return;
@@ -516,14 +516,14 @@ public static class PassiveUiElement_Patches
     [HarmonyPatch(typeof(Scrollbar), nameof(Scrollbar.ReceiveClickDrag))]
     [HarmonyPatch(typeof(Scroller), nameof(Scroller.UpdateScrollBars))]
 
-    // Prevent clicks from passing through interactive Centromenu windows.
+
     public static bool Prefix()
     {
-        // Input.mousePosition has a bottom-left origin
-        // Convert it to a top-left origin by flipping the Y coordinate
+
+
         Vector2 mousePosition = new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
 
-        // Rect.Contains() uses GUI coordinates (top-left origin).
+
         bool overMainMenu = MenuUI.isGUIActive && MenuUI.windowRect.Contains(mousePosition);
         bool overModDetector = ModDetectorUI.IsVisible && ModDetectorUI.windowRect.Contains(mousePosition);
         return !(overMainMenu || overModDetector);

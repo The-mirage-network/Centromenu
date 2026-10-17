@@ -74,7 +74,7 @@ namespace CentroFeatures.ui.sections
 			}
 
 			GUILayout.Space(5);
-			// Automatically close and open all doors at a set interval
+
 			GUILayout.Label("Door Troller:");
 			Centro.routines.doorTroller.Enabled = GUILayout.Toggle(Centro.routines.doorTroller.Enabled, "Enabled");
 
@@ -89,9 +89,9 @@ namespace CentroFeatures.ui.sections
 			ModuleManager.autoExposeImpostors.ExposeOnPhantom = GUILayout.Toggle(ModuleManager.autoExposeImpostors.ExposeOnPhantom, "Expose On Phantom");
 		}
 
-		// In Hide and Seek, completing a task will reduce the HnS hide timer depending on the length of the task (short, common, or long)
-		// The problem is the game reduces the task timer even if we have already completed the task
-		// so we can spam the CompleteTask RPC with the same task, and reduce the task timer to zero seconds
+
+
+
 		private IEnumerator DepleteSeekTimer()
 		{
 			if(!GameManager.Instance.IsHideAndSeek())
@@ -159,7 +159,7 @@ namespace CentroFeatures.ui.sections
 
 			for(int i = 0; i <= requiredCompletions; i++)
 			{
-				// The message packing limit for non-hosts should be ten, but the Among Us anticheat disconnects us if we have more than six CompleteTask RPCs in a single batch
+
 				if(batch.msgCount >= 6)
 				{
 					batch.FinishBatch();

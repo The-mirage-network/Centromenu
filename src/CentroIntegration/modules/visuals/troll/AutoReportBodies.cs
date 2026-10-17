@@ -4,7 +4,7 @@ namespace CentroFeatures.modules.troll
 	{
 		public AutoReportBodies() : base("AutoReportBodies") { }
 
-		// The player that should be framed for reporting the body
+
 		public PlayerControl target;
 
 		private void OnPlayerMurder(PlayerControl murderer, PlayerControl victim, MurderResultFlags flags)

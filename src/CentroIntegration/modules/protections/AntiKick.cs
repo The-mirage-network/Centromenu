@@ -48,7 +48,7 @@ namespace CentroFeatures.modules.protections
 		{
 			if(!BlockVotekicks || !AmongUsClient.Instance.AmHost || target.Id != AmongUsClient.Instance.ClientId) return;
 
-			// Remove our votes, as if nothing ever happened
+
 			VoteBanSystem.Instance.Votes[AmongUsClient.Instance.ClientId] = new Il2CppStructArray<int>(0);
 		}
 

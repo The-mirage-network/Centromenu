@@ -24,8 +24,8 @@ namespace CentroFeatures.routines
 
 			List<int> colors = Enumerable.Range(0, 18).ToList();
 
-			// On +25 modded protocol lobbies, we are able to send SetColor RPCs as non-host
-			// however we are still affected by message packing limits
+
+
 			int packingLimit = AmongUsClient.Instance.GetMaxMessagePackingLimit();
 			BatchedMessage batch = new BatchedMessage();
 
@@ -33,7 +33,7 @@ namespace CentroFeatures.routines
 			{
 				if(!IsGlobal && !targets.Contains(player.GetHashCode())) continue;
 
-				// Assign each player a unique color
+
 				int color;
 				if(colors.Count != 0)
 				{
@@ -42,7 +42,7 @@ namespace CentroFeatures.routines
 				}
 				else
 				{
-					// To ensure compatability for lobbies with more than 18 players
+
 					color = rnd.Next(0, 18);
 				}
 

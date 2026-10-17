@@ -6,7 +6,7 @@ namespace CentroFeatures.modules.spoofer
 	{
 		public SpoofDevice() : base("SpoofDevice")
 		{
-			// This module can be enabled at all times
+
 			base.Enabled = true;
 		}
 
@@ -35,7 +35,7 @@ namespace CentroFeatures.modules.spoofer
 				Instance.SpoofedPlatform = selectedPlatform;
 				__instance.Platform = selectedPlatform;
 
-				// Clear metadata from the real platform before populating the selected one.
+
 				__instance.PlatformName = "TESTNAME";
 				__instance.XboxPlatformId = 0;
 				__instance.PsnPlatformId = 0;
@@ -47,7 +47,7 @@ namespace CentroFeatures.modules.spoofer
 						break;
 
 					case Platforms.Xbox:
-						// You can find the proper XUID for an Xbox gamertag at https://www.cxkes.me/xbox/xuid
+
 						__instance.PlatformName = "Major Nelson";
 						__instance.XboxPlatformId = 2584878536129841;
 						break;
@@ -62,7 +62,7 @@ namespace CentroFeatures.modules.spoofer
 						break;
 
 					default:
-						// Other platforms do not send additional platform specific data
+
 						break;
 				}
 			}

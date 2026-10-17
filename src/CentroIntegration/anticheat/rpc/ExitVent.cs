@@ -5,7 +5,7 @@ namespace CentroFeatures.anticheat.rpc
 {
 	internal class ExitVent : RpcCheck
 	{
-		// Sending ExitVent RPCs can be used to make the player teleport to areas without having to send SnapTo RPCs
+
 		public override bool Validate(PlayerControl player, MessageReader reader)
 		{
 			if(ShipStatus.Instance == null)

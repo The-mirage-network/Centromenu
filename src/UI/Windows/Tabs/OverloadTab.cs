@@ -85,13 +85,13 @@ public class OverloadTab : ITab
         float numExecutionsPerSec;
         string extraStr = "";
 
-        if (cooldown > Time.unscaledDeltaTime) // numExecutionsPerSec would be under FPS
+        if (cooldown > Time.unscaledDeltaTime)
         {
             numExecutionsPerSec = 1f / cooldown;
         }
-        else // numExecutionsPerSec would be over FPS
+        else
         {
-            // FPS fluctuates too often so only update after significant variation (> 5)
+
 
             float fps = Utils.GetFps();
             if (Math.Abs(fps - _fpsEstimate) > 5f)
@@ -99,11 +99,11 @@ public class OverloadTab : ITab
                 _fpsEstimate = fps;
             }
 
-            numExecutionsPerSec = (int)_fpsEstimate; // numExecutionsPerSec is capped by FPS regardless of cooldown
+            numExecutionsPerSec = (int)_fpsEstimate;
             extraStr = " (FPS Cap)";
         }
 
-        int numTargetsPerSec = OverloadUI.currentTargets.Count <= numExecutionsPerSec ? OverloadUI.currentTargets.Count : (int)numExecutionsPerSec; // numTargetsPerSec is capped by numExecutionsPerSec
+        int numTargetsPerSec = OverloadUI.currentTargets.Count <= numExecutionsPerSec ? OverloadUI.currentTargets.Count : (int)numExecutionsPerSec;
 
         int rpcPerTarget = numTargetsPerSec > 0 ? (int)(strength * numExecutionsPerSec / numTargetsPerSec) :
                                             (int)(strength * numExecutionsPerSec);
@@ -150,13 +150,13 @@ public class OverloadTab : ITab
             bool isPressed = GUILayout.Button($"{OverloadUI.killSwitchThreshold} ms", GUILayout.Width(70f));
             if (isPressed)
             {
-                if (OverloadUI.killSwitchThreshold >= 3000) // Max KS = 3000 ms
+                if (OverloadUI.killSwitchThreshold >= 3000)
                 {
-                    OverloadUI.killSwitchThreshold = 500; // Min KS = 500 ms
+                    OverloadUI.killSwitchThreshold = 500;
                 }
                 else
                 {
-                    OverloadUI.killSwitchThreshold = OverloadUI.killSwitchThreshold + 500; // Increment by 500 ms steps
+                    OverloadUI.killSwitchThreshold = OverloadUI.killSwitchThreshold + 500;
                 }
             }
 
@@ -200,7 +200,7 @@ public class OverloadTab : ITab
 
         if (inputStrength != _rawStrength)
         {
-            CheatToggles.olAutoAdapt = false; // Disable AutoAdapt if user does manual input
+            CheatToggles.olAutoAdapt = false;
             _rawStrength = inputStrength;
         }
 
@@ -223,7 +223,7 @@ public class OverloadTab : ITab
 
         if (inputCooldown != _rawCooldown)
         {
-            CheatToggles.olAutoAdapt = false; // Disable AutoAdapt if user does manual input
+            CheatToggles.olAutoAdapt = false;
             _rawCooldown = inputCooldown;
         }
 
@@ -235,16 +235,16 @@ public class OverloadTab : ITab
 
         if (!CheatToggles.olAutoAdapt)
         {
-            float strengthStep = _maxStrength / 100f; // Slider steps are 1/100 of max strength
+            float strengthStep = _maxStrength / 100f;
             int clampStrength = Mathf.RoundToInt(Mathf.Clamp(Mathf.Round(_rawStrength / strengthStep) * strengthStep, 1, _maxStrength));
             OverloadHandler.strength = clampStrength;
 
-            float cooldownStep = _maxCooldown / 100f; // Slider steps are 1/100 of max cooldown
+            float cooldownStep = _maxCooldown / 100f;
             float clampCooldown = Mathf.Round(_rawCooldown / cooldownStep) * cooldownStep;
             OverloadHandler.cooldown = clampCooldown;
         }
 
-        // Adjust bounds so sliders will never be out of bounds
+
 
         while (_maxStrength < OverloadHandler.strength)
         {
@@ -258,45 +258,45 @@ public class OverloadTab : ITab
 
         if (isPressedMaxStrength)
         {
-            if (_maxStrength >= 100000) // Max _maxStrength = 100K RPCs
+            if (_maxStrength >= 100000)
             {
-                CheatToggles.olAutoAdapt = false; // Disable AutoAdapt if user does manual input
+                CheatToggles.olAutoAdapt = false;
 
-                OverloadHandler.strength = Mathf.RoundToInt(OverloadHandler.strength/1000f); // Adjust value to account for max change (÷1000)
+                OverloadHandler.strength = Mathf.RoundToInt(OverloadHandler.strength/1000f);
 
-                _maxStrength = 100; // Min _maxStrength = 100 RPCs
+                _maxStrength = 100;
             }
             else
             {
-                CheatToggles.olAutoAdapt = false; // Disable AutoAdapt if user does manual input
+                CheatToggles.olAutoAdapt = false;
 
-                OverloadHandler.strength *= 10; // Adjust value to account for max change (x10)
+                OverloadHandler.strength *= 10;
 
-                _maxStrength *= 10; // Increment by x10 steps
+                _maxStrength *= 10;
             }
         }
 
         if (isPressedMaxCooldown)
         {
-            if (_maxCooldown >= 10f) // Max _maxCooldown = 10s
+            if (_maxCooldown >= 10f)
             {
-                CheatToggles.olAutoAdapt = false; // Disable AutoAdapt if user does manual input
+                CheatToggles.olAutoAdapt = false;
 
-                OverloadHandler.cooldown /= 10f; // Adjust value to account for max change (÷10)
+                OverloadHandler.cooldown /= 10f;
 
-                _maxCooldown = 1f; // Min _maxCooldown = 1s
+                _maxCooldown = 1f;
             }
             else
             {
-                CheatToggles.olAutoAdapt = false; // Disable AutoAdapt if user does manual input
+                CheatToggles.olAutoAdapt = false;
 
-                OverloadHandler.cooldown *= 10; // Adjust value to account for max change (x10)
+                OverloadHandler.cooldown *= 10;
 
-                _maxCooldown *= 10; // Increment by x10 steps
+                _maxCooldown *= 10;
             }
         }
 
-        // Update slider values to match actual values
+
 
         _rawStrength = OverloadHandler.strength;
         _rawCooldown = OverloadHandler.cooldown;

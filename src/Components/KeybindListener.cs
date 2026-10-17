@@ -14,11 +14,11 @@ public class KeybindListener : MonoBehaviour
             return;
         }
 
-        // Keybinds aren't triggered from typing in the chat
+
         if (!CheatToggles.allowKeybindsWhileChatting &&
             HudManager.InstanceExists && HudManager.Instance.Chat && HudManager.Instance.Chat.IsOpenOrOpening) return;
 
-        // Check each keybind to see if the user pressed it and toggle the corresponding cheat
+
         foreach (var (name, key) in CheatToggles.Keybinds)
         {
             if (key == KeyCode.None) continue;

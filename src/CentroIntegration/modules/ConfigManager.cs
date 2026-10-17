@@ -43,7 +43,7 @@ namespace CentroFeatures.modules
 				configList.Add(Path.GetFileNameWithoutExtension(file));
 			}
 
-			// Keep the imported settings isolated from standalone Centro installs.
+
 			if(!configList.Contains(currentConfig))
 			{
 				configList.Add(currentConfig);
@@ -51,7 +51,7 @@ namespace CentroFeatures.modules
 				return;
 			}
 
-			// Load the default config
+
 			LoadConfig(currentConfig);
 		}
 
@@ -66,7 +66,7 @@ namespace CentroFeatures.modules
 			if(!File.Exists(configLocation))
 			{
 				Centro.Log.LogWarning($"Tried to load config {configName} when no such config exists");
-				// Let's just carry on with our current config
+
 				return;
 			}
 
@@ -116,7 +116,7 @@ namespace CentroFeatures.modules
 			HashSet<string> configHashList = configList.ToHashSet();
 			string match = null;
 
-			// https://stackoverflow.com/a/27289807
+
 			char[] digits = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 			string baseConfigName = currentConfig.TrimEnd(digits).Trim();
 
@@ -134,10 +134,10 @@ namespace CentroFeatures.modules
 
 		public void CreateNewConfig(string configName)
 		{
-			// First save our old config
+
 			SaveConfig(currentConfig);
 
-			// Then create our new config
+
 			configList.Add(configName);
 			SaveConfig(configName);
 			currentConfig = configName;

@@ -2,10 +2,10 @@ using UnityEngine;
 
 namespace Centromenu;
 
-/// <summary>
-/// BepInEx-native client-side presentation and input options.
-/// These options do not emit gameplay RPCs and are safe to change at any time.
-/// </summary>
+
+
+
+
 public sealed class CustomizationTab : ITab
 {
     public string name => "Customization";

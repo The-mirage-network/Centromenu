@@ -24,10 +24,10 @@ public static class PlayerPhysics_LateUpdate
         CentromenuCheats.PlayAnimationCheat();
         CentromenuCheats.PlayScannerCheat();
 
-        // Before any new match ...
+
         if (Utils.isLobby || Utils.isFreePlay)
         {
-            // Clear the original cached role that is used by fakeRole
+
             CentromenuPPMCheats.ClearFakeRoleCache();
         }
 
@@ -38,19 +38,19 @@ public static class PlayerPhysics_LateUpdate
         CentromenuPPMCheats.TeleportPlayerPPM();
         CentromenuPPMCheats.SetFakeRolePPM();
         CentromenuPPMCheats.SetFakeAlivePPM();
-        // CentromenuPPMCheats.ForceRolePPM();
 
-        // This check ensures there is only one run per frame
-        // so that OverloadHandler._timer progression remains accurate
-        // if (__instance.AmOwner)
-        // {
-        //     OverloadHandler.Run();
-        // }
+
+
+
+
+
+
+
 
         TracersHandler.DrawPlayerTracer(__instance);
 
         GameObject[] bodyObjects = GameObject.FindGameObjectsWithTag("DeadBody");
-        foreach(GameObject bodyObject in bodyObjects) // Finds and loops through all dead bodies
+        foreach(GameObject bodyObject in bodyObjects)
         {
             DeadBody deadBody = bodyObject.GetComponent<DeadBody>();
             if (!deadBody) continue;
@@ -86,7 +86,7 @@ public static class PlayerPhysics_LateUpdate
 [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.HandleAnimation))]
 public static class PlayerPhysics_HandleAnimation
 {
-    // Prefix patch of PlayerPhysics.HandleAnimation to disable walking animation
+
     public static bool Prefix(PlayerPhysics __instance)
     {
         if (CheatToggles.moonWalk && __instance.AmOwner)

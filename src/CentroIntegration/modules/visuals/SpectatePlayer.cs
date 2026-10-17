@@ -19,7 +19,7 @@ namespace CentroFeatures.modules.visuals
 
 		protected override void OnEnable()
 		{
-			// In case this module was enabled as part of the config
+
 			if(target == null)
 			{
 				_enabled = false;

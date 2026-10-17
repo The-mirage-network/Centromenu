@@ -168,8 +168,8 @@ public class ChatTab : ITab
             ? _automatedMessage[..characterLimit]
             : _automatedMessage;
 
-        // Use the normal free-chat pipeline so the game applies its standard
-        // validation, display, and network handling.
+
+
         chat.freeChatField.textArea.SetText(message);
         chat.SendFreeChat();
         return true;

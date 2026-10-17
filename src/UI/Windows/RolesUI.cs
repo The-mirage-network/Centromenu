@@ -12,7 +12,7 @@ public class RolesUI : MonoBehaviour
 
     private void Start()
     {
-        // Instantiate 2D area of RolesUI
+
         windowRect = new(
             Screen.width / 2f - windowWidth / 2f,
             Screen.height / 2f - windowHeight / 2f,

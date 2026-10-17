@@ -21,7 +21,7 @@ namespace Centromenu;
 public static class Utils
 {
     public static bool isPastingInput;
-    public static ReferenceDataManager ReferenceDataManager = ReferenceDataManager.Instance; // Useful for getting full lists of all the Among Us cosmetics IDs
+    public static ReferenceDataManager ReferenceDataManager = ReferenceDataManager.Instance;
     public static SabotageSystemType SabotageSystem => ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
     public static bool isShip => ShipStatus.Instance;
     public static bool isClient => AmongUsClient.Instance;
@@ -48,14 +48,14 @@ public static class Utils
     public const float DefaultSpeed = 2.5f;
     public const float DefaultGhostSpeed = 3f;
 
-    // Checks if LocalPlayer's speed is at its default value
+
     public static bool IsSpeedDefault(bool forGhost = false)
     {
         return forGhost ? Mathf.Approximately(PlayerControl.LocalPlayer.MyPhysics.GhostSpeed, DefaultGhostSpeed) :
             Mathf.Approximately(PlayerControl.LocalPlayer.MyPhysics.Speed, DefaultSpeed);
     }
 
-    // Snaps LocalPlayer's speed to the default if within snapRange
+
     public static void SnapSpeedToDefault(float snapRange, bool forGhost = false)
     {
         if (forGhost)
@@ -70,7 +70,7 @@ public static class Utils
         }
     }
 
-    // Gets a player's real name, display name, and whether they are disguised or not
+
     public static (string realName, string displayName, bool isDisguised) GetPlayerIdentity(PlayerControl player)
     {
         if (player == null || player.Data == null) return ("", "", false);
@@ -82,7 +82,7 @@ public static class Utils
         return (realName, displayName, isDisguised);
     }
 
-    // Checks if player is currently vanished
+
     public static bool IsVanished(NetworkedPlayerInfo playerInfo)
     {
         PhantomRole phantomRole = playerInfo.Role as PhantomRole;
@@ -95,7 +95,7 @@ public static class Utils
         return false;
     }
 
-    // Checks whether a player is a valid target depending on whether killAnyone cheat is enabled or not
+
     public static bool IsValidTarget(NetworkedPlayerInfo target)
     {
         var killAnyoneRequirements = target && !target.Disconnected && target.Object.Visible && target.PlayerId != PlayerControl.LocalPlayer.PlayerId && target.Role && target.Object;
@@ -119,20 +119,20 @@ public static class Utils
         return playerDataList;
     }
 
-    // Adjusts HUD resolution
-    // Used to fix UI problems when zooming out
+
+
     public static void AdjustResolution()
     {
         ResolutionManager.ResolutionChanged.Invoke((float)Screen.width / Screen.height, Screen.width, Screen.height, Screen.fullScreen);
     }
 
-    // Gets RoleBehaviour from a RoleType
+
     public static RoleBehaviour GetBehaviourByRoleType(RoleTypes roleType)
     {
         return RoleManager.Instance.AllRoles.ToArray().First(r => r.Role == roleType);
     }
 
-    // Gets RoleBehaviour from a TeamType
+
     public static RoleBehaviour GetBehaviourByTeamType(RoleTeamTypes roleTeamType)
     {
         RoleTypes roleType = (RoleTypes)Enum.Parse(typeof(RoleTypes), roleTeamType.ToString(), true);
@@ -151,22 +151,22 @@ public static class Utils
 
     public static void ForcePlayAnimation(byte animationType)
     {
-        // PlayerControl.LocalPlayer.RpcPlayAnimation(1) wouldn't work if visual tasks are turned off
-        // The below way makes sure it works regardless of visual task settings
+
+
 
         PlayerControl.LocalPlayer.PlayAnimation(animationType);
         RpcPlayAnimationMessage rpcMessage = new(PlayerControl.LocalPlayer.NetId, animationType);
         AmongUsClient.Instance.LateBroadcastUnreliableMessage(Unsafe.As<IGameDataMessage>(rpcMessage));
     }
 
-    // Coroutine to teleport the LocalPlayer to a position after a delay
+
     public static System.Collections.IEnumerator DelayedSnapTo(Vector2 position, float delay = 0.25f)
     {
         yield return new WaitForSeconds(delay);
         PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(position);
     }
 
-    // Kills any player using RPC calls
+
     public static void MurderPlayer(PlayerControl target, MurderResultFlags result)
     {
         if (isFreePlay)
@@ -184,7 +184,7 @@ public static class Utils
         }
     }
 
-    // Opens Chat UI
+
     public static void OpenChat()
     {
         if (!HudManager.Instance.Chat.IsOpenOrOpening)
@@ -206,7 +206,7 @@ public static class Utils
 
     private const float EspLineWidth = 0.006f;
 
-    // Draws a tracer line between two GameObjects
+
     public static void DrawTracer(GameObject sourceObject, GameObject targetObject, Color color)
     {
         var lineRenderer = sourceObject.GetComponent<LineRenderer>();
@@ -220,7 +220,7 @@ public static class Utils
         lineRenderer.SetWidth(EspLineWidth, EspLineWidth);
         lineRenderer.useWorldSpace = true;
 
-        // I just picked an already existing material from the game
+
         Material material = HatManager.Instance.PlayerMaterial;
 
         lineRenderer.material = material;
@@ -230,7 +230,7 @@ public static class Utils
         lineRenderer.SetPosition(1, targetObject.transform.position);
     }
 
-    // Draws a portrait ESP rectangle around the target player's entire body.
+
     public static void DrawPlayerBox(GameObject playerObject, Color color)
     {
         const string playerBoxName = "Centromenu_ESPPlayerBox";
@@ -255,7 +255,7 @@ public static class Utils
         lineRenderer.material = HatManager.Instance.PlayerMaterial;
         lineRenderer.SetColors(color, color);
 
-        // Close the rectangle explicitly for compatibility with the game's Unity version.
+
         lineRenderer.SetPosition(0, new Vector3(-0.45f, -0.50f, -0.01f));
         lineRenderer.SetPosition(1, new Vector3(-0.45f, 0.85f, -0.01f));
         lineRenderer.SetPosition(2, new Vector3(0.45f, 0.85f, -0.01f));
@@ -263,7 +263,7 @@ public static class Utils
         lineRenderer.SetPosition(4, new Vector3(-0.45f, -0.50f, -0.01f));
     }
 
-    // Returns whether the ChatUI should be active or not
+
     public static bool IsChatUiActive()
     {
         try
@@ -276,8 +276,8 @@ public static class Utils
         }
     }
 
-    // Returns the max number of nested RPCs that can be in a GameData message
-    // without getting kicked by AC
+
+
     public static int GetMaxRpcPackingLimit()
     {
         int num = 0;
@@ -290,9 +290,9 @@ public static class Utils
         return 10 + num;
     }
 
-    // Overloads target with set strength using Pet RPCs that
-    // repeatedly restart the hand-petting animation, preventing old petting coroutines
-    // from resolving
+
+
+
     public static void Overload(int targetId, int strength)
     {
         if (strength < 1) return;
@@ -304,11 +304,11 @@ public static class Utils
 
         if (strength <= maxRpc)
         {
-            // SendOption.None has no flow control, allowing for flooding without limits
+
 
             var messageWriter = MessageWriter.Get(SendOption.None);
 
-            if (targetId < 0) // -1 = Broadcast
+            if (targetId < 0)
             {
                 messageWriter.StartMessage(Tags.GameData);
                 messageWriter.Write(AmongUsClient.Instance.GameId);
@@ -328,13 +328,13 @@ public static class Utils
 
                 messageWriter.Write(rpcCall);
 
-                // Use LocalPlayer.GetTruePosition() as the petting position
-                // to minimize WalkPlayerTo delay and start the hand-petting animation immediately
+
+
 
                 NetHelpers.WriteVector2(PlayerControl.LocalPlayer.GetTruePosition(), messageWriter);
 
-                // Pet position is decoded as (-50, -50) on target clients
-                // This keeps the hand-petting animation out of normal view
+
+
 
                 messageWriter.Write((ushort)0);
 
@@ -363,7 +363,7 @@ public static class Utils
         }
     }
 
-    // Closes Chat UI
+
     public static void CloseChat()
     {
         if (HudManager.Instance.Chat.IsOpenOrOpening)
@@ -372,7 +372,7 @@ public static class Utils
         }
     }
 
-    // Gets the distance between two players
+
     public static float GetDistanceBetween(PlayerControl source, PlayerControl target)
     {
 
@@ -383,7 +383,7 @@ public static class Utils
 
     }
 
-    // Returns a list of all the players in the game ordered from closest to farthest (from LocalPlayer by default)
+
     public static System.Collections.Generic.List<PlayerControl> GetPlayersSortedByDistance(PlayerControl source = null)
     {
 
@@ -411,51 +411,51 @@ public static class Utils
         return outputList.Count <= 0 ? null : outputList;
     }
 
-    // Returns current map ID if available
+
     public static byte GetCurrentMapID()
     {
-        // Works for the tutorial
+
         if (isFreePlay)
         {
             return (byte)AmongUsClient.Instance.TutorialMapId;
         }
 
-        // Works for local / online games
+
         if (GameOptionsManager.Instance?.currentGameOptions != null)
         {
             return GameOptionsManager.Instance.currentGameOptions.MapId;
         }
 
-        // Defaults to byte.MaxValue if the current map ID is unavailable
+
         return byte.MaxValue;
     }
 
-    // Gets SystemType of the room the player is currently in
+
     public static SystemTypes GetCurrentRoom()
     {
         return HudManager.Instance.roomTracker.LastRoom.RoomId;
     }
 
-    // Gets the PlainShipRoom of room that overlaps specified position
+
     public static PlainShipRoom GetRoomFromPosition(Vector2 position)
     {
         return ShipStatus.Instance == null ? null : ShipStatus.Instance.AllRooms.FirstOrDefault(
             room => room != null && room.roomArea != null && room.roomArea.OverlapPoint(position));
     }
 
-    // Returns colored ping text for PingTracker
+
     public static string GetColoredPingText(string pingText, int ping)
     {
         return ping switch
         {
-            < 1 => $"<color=#b8b8b8>{pingText}</color>", // Grey for ping < 1
-            < 100 => $"<color=#00ff00ff>{pingText}</color>", // Green for ping < 100
-            < 400 => $"<color=#ffff00ff>{pingText}</color>", // Yellow for 100 < ping < 400
-            _ => $"<color=#ff0000ff>{pingText}</color>" // Red for ping > 400
+            < 1 => $"<color=#b8b8b8>{pingText}</color>",
+            < 100 => $"<color=#00ff00ff>{pingText}</color>",
+            < 400 => $"<color=#ffff00ff>{pingText}</color>",
+            _ => $"<color=#ff0000ff>{pingText}</color>"
         };
     }
 
-    // Builds the animated, per-character triangle gradient used by the footer.
+
     public static string GetGradientText(string text, Color firstColor, Color secondColor, int offset)
     {
         if (string.IsNullOrEmpty(text)) return string.Empty;
@@ -486,8 +486,8 @@ public static class Utils
         return output.ToString();
     }
 
-    // Builds a seamless three-color wave. The final blend back to the first
-    // color keeps the animation flowing without a visible jump.
+
+
     public static string GetGradientText(
         string text,
         Color firstColor,
@@ -522,7 +522,7 @@ public static class Utils
         return output.ToString();
     }
 
-    // Shared animated branding for the main version label and the menu panel title.
+
     public static string GetAnimatedCentromenuVersion(int offset)
     {
         string menuText = GetGradientText(
@@ -541,21 +541,21 @@ public static class Utils
         return $"{menuText}  {versionText}";
     }
 
-    // Returns the current approximate FPS
+
     public static int GetFps()
     {
         return (int)(1f / Time.unscaledDeltaTime);
     }
 
-    // Gets a UnityEngine.KeyCode from a string
+
     public static KeyCode StringToKeycode(string keyCodeStr)
     {
 
-        if(!string.IsNullOrEmpty(keyCodeStr)) // Empty strings are automatically invalid
+        if(!string.IsNullOrEmpty(keyCodeStr))
         {
             try
             {
-                // Case-insensitive parse of UnityEngine.KeyCode to check if string is valid
+
                 KeyCode keyCode = (KeyCode)Enum.Parse(typeof(KeyCode), keyCodeStr, true);
 
                 return keyCode;
@@ -565,25 +565,25 @@ public static class Utils
             catch { }
         }
 
-        return KeyCode.Delete; // If string is invalid, return Delete as the default key
+        return KeyCode.Delete;
     }
 
-    // Gets a platform type from a string
+
     public static bool StringToPlatformType(string platformStr, out Platforms? platform)
     {
-        if (!string.IsNullOrEmpty(platformStr)) // Empty strings are automatically invalid
+        if (!string.IsNullOrEmpty(platformStr))
         {
             try
             {
-                // Case-insensitive parse of Platforms from string (if it valid)
+
                 platform = (Platforms)Enum.Parse(typeof(Platforms), platformStr, true);
 
-                return true; // If platform type is valid, return false
+                return true;
             }catch{}
         }
 
         platform = null;
-        return false; // If platform type is invalid, return false
+        return false;
     }
 
     public static string PlatformTypeToString(Platforms platform)
@@ -628,8 +628,8 @@ public static class Utils
         string label = PlatformTypeToString(platform);
         if (label != "Unknown" || !isLocalPlayer) return label;
 
-        // Local PlatformData can briefly be Unknown while the client is joining.
-        // Unity's runtime platform still gives ESP a useful device family fallback.
+
+
         return Application.platform switch
         {
             RuntimePlatform.WindowsPlayer or RuntimePlatform.WindowsEditor => "Windows PC",
@@ -641,8 +641,8 @@ public static class Utils
         };
     }
 
-    // Gets the name for a specified player's role as a string
-    // Strings are automatically translated
+
+
     public static string GetRoleName(NetworkedPlayerInfo playerData)
     {
         var translatedRole = TranslationController.Instance.GetString(playerData.Role.StringName, Il2CppSystem.Array.Empty<Il2CppSystem.Object>());
@@ -652,7 +652,7 @@ public static class Utils
         return translatedRole;
     }
 
-    // Gets the appropriate nametag for a player
+
     public static string GetNameTag(NetworkedPlayerInfo playerInfo, string playerName, bool isChat = false, bool isMatchInfo = false)
     {
         if (playerInfo.IsNull()) return playerName;
@@ -668,8 +668,8 @@ public static class Utils
 
         var platform = GetPlayerPlatform(playerInfo);
 
-        //var puid = player.ProductUserId;
-        //var friendcode = player.FriendCode;
+
+
 
         var roleColor = ColorUtility.ToHtmlStringRGB(playerInfo.Role.TeamColor);
 
@@ -747,7 +747,7 @@ public static class Utils
         return nameTag;
     }
 
-    // Returns a player's NetworkedPlayerInfo from their client ID
+
     public static NetworkedPlayerInfo GetPlayerDataFromClientId(int clientId)
     {
         var players = PlayerControl.AllPlayerControls.ToArray();
@@ -761,10 +761,10 @@ public static class Utils
 			}
 		}
 
-        return null; // Returns null if no matching player is found
+        return null;
     }
 
-    // Returns a random 1 - 12 characters long name
+
     public static string GetRandomName()
     {
         var length = UnityEngine.Random.Range(1, 13);
@@ -772,7 +772,7 @@ public static class Utils
         return new string(Enumerable.Repeat(chars, length).Select(s => s[UnityEngine.Random.Range(0, s.Length)]).ToArray());
     }
 
-    // Returns current AmongUsClient ping in ms
+
     public static int GetPing()
     {
         if (isClient && AmongUsClient.Instance.AmClient)
@@ -781,12 +781,12 @@ public static class Utils
         }
         else
         {
-            return 0; // Returns 0 if not connected to a game
+            return 0;
         }
     }
 
-    // Shows a custom popup ingame
-    // Found here: https://github.com/NuclearPowered/Reactor/blob/6eb0bf19c30733b78532dada41db068b2b247742/Reactor/Networking/Patches/HttpPatches.cs
+
+
     public static void ShowPopup(string text)
     {
         var popup = UnityEngine.Object.Instantiate(DiscordManager.Instance.discordPopup, Camera.main!.transform);
@@ -805,8 +805,8 @@ public static class Utils
         DisconnectPopup.Instance.ShowCustom(text);
     }
 
-    // Loads sprites from manifest resources
-    // Found here: https://github.com/Loonie-Toons/TOHE-Restored/blob/TOHE/Modules/Utils.cs
+
+
     public static Dictionary<string, Sprite> CachedSprites = new();
     public static Sprite LoadSprite(string path, float pixelsPerUnit = 1f)
     {
@@ -827,8 +827,8 @@ public static class Utils
         return null;
     }
 
-    // Loads textures from manifest resources
-    // Found here: https://github.com/Loonie-Toons/TOHE-Restored/blob/TOHE/Modules/Utils.cs
+
+
     public static Texture2D LoadTextureFromResources(string path)
     {
         try
@@ -848,7 +848,7 @@ public static class Utils
         return null;
     }
 
-    // Opens the config file in the default text editor
+
     public static void OpenConfigFile()
     {
         var configFilePath = Centromenu.Plugin.Config.ConfigFilePath;
@@ -865,7 +865,7 @@ public static class Utils
                         FileName = configEditor,
                         Arguments = configFilePath,
                         UseShellExecute = true
-                        //Verb = "edit"
+
                     });
                 }
                 catch (Exception ex)
@@ -886,7 +886,7 @@ public static class Utils
 
     public class PanicCleaner : MonoBehaviour
     {
-        // Creates a PanicCleaner to unpatch Harmony
+
         public static void Create()
         {
             ClassInjector.RegisterTypeInIl2Cpp<PanicCleaner>();
@@ -895,8 +895,8 @@ public static class Utils
             go.AddComponent<PanicCleaner>();
         }
 
-        // Unpatching Harmony in handled in the next frame after creation
-        // This allows some patches to run for a last time and finish properly
+
+
         private void LateUpdate()
         {
             try { Harmony.UnpatchID(Centromenu.Id); } catch { }
@@ -908,9 +908,9 @@ public static class Utils
     {
         Centromenu.isPanicked = true;
 
-        // Restore game-owned presentation before the toggles and Harmony patches are removed.
-        // Without this, using panic while the imported HUD option is enabled can leave the
-        // vanilla HUD disabled until the next scene load.
+
+
+
         if (HudManager.InstanceExists && HudManager.Instance)
         {
             HudManager.Instance.SetHudActive(true);
@@ -935,8 +935,8 @@ public static class Utils
         UnityEngine.Object.Destroy(Centromenu.tasksUI);
         UnityEngine.Object.Destroy(Centromenu.protectUI);
         UnityEngine.Object.Destroy(Centromenu.modDetectorUI);
-        // UnityEngine.Object.Destroy(Centromenu.rolesUI);
-        // UnityEngine.Object.Destroy(Centromenu.overloadUI);
+
+
 
         UnityEngine.Object.Destroy(Centromenu.keybindListener);
 

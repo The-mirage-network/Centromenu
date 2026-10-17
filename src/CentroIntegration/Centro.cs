@@ -5,10 +5,10 @@ using CentroFeatures.ui;
 
 namespace CentroFeatures;
 
-/// <summary>
-/// Compatibility host for the Centro feature set. CentroMenu remains the only
-/// BepInEx plugin and the only visible menu.
-/// </summary>
+
+
+
+
 internal static class Centro
 {
     internal static ManualLogSource Log { get; private set; }
@@ -22,7 +22,7 @@ internal static class Centro
     {
         Log = Centromenu.Centromenu.Log;
 
-        // Retained only as a config-data holder; Centro's separate window never renders.
+
         mainUI = plugin.AddComponent<MainUI>();
         mainUI.enabled = false;
 
@@ -30,8 +30,8 @@ internal static class Centro
         modules = plugin.AddComponent<ModuleManager>();
         routines = plugin.AddComponent<RoutineManager>();
 
-        // Imported configuration is intentionally not loaded: Teleport Flooder
-        // is the only retained Centro option and starts disabled every session.
+
+
         Log.LogInfo("Teleport Flooder compatibility layer loaded into CentroMenu.");
     }
 

@@ -7,7 +7,7 @@ namespace Centromenu;
 [HarmonyPatch(typeof(TextBoxTMP), nameof(TextBoxTMP.Update))]
 public static class TextBoxTMP_Update
 {
-    // Postfix patch of TextBoxTMP.Update to allow copying, pasting and cutting text between the chatbox and the device's clipboard
+
     public static void Postfix(TextBoxTMP __instance)
     {
         if (!CheatToggles.unlockClipboard || !__instance.hasFocus) return;
@@ -39,11 +39,11 @@ public static class TextBoxTMP_Update
 [HarmonyPatch(typeof(TextBoxTMP), nameof(TextBoxTMP.IsCharAllowed))]
 public static class TextBoxTMP_IsCharAllowed
 {
-    // Prefix patch of TextBoxTMP.IsCharAllowed to unlock extra characters
+
     public static bool Prefix(TextBoxTMP __instance, char i, ref bool __result)
     {
-        // If user is writing through IME composition, then always allow the inputted characters
-        // Fixes issues for users of CJK languages
+
+
 
         string compositionString = Input.compositionString;
         if (compositionString.Length > 0)
@@ -54,7 +54,7 @@ public static class TextBoxTMP_IsCharAllowed
 
         if (CheatToggles.unlockCharacters)
         {
-            // Blocked characters to avoid breaking text input / getting kicked by anticheat
+
             HashSet<char> blockedSymbols = new() { '\b', '\r', '>', '<', '[' };
 
             if (blockedSymbols.Contains(i))
@@ -65,7 +65,7 @@ public static class TextBoxTMP_IsCharAllowed
 
             __result = true;
         }
-        else // Normal IsCharAllowed logic
+        else
         {
             if (__instance.IpMode)
             {

@@ -6,7 +6,7 @@ namespace CentroFeatures.modules.self
 	{
 		public SpeedModifier() : base("SpeedModifier")
 		{
-			// This module can be enabled at all times
+
 			base.Enabled = true;
 		}
 

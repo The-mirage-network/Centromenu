@@ -17,7 +17,7 @@ public class ConsoleUI : MonoBehaviour
 
     private void Start()
     {
-        // Instantiate 2D area of ConsoleUI
+
         windowRect = new(
             Screen.width / 2f - windowWidth / 2f,
             Screen.height / 2f - windowHeight / 2f,
@@ -78,16 +78,16 @@ public class ConsoleUI : MonoBehaviour
 
     public static void Log(string message)
     {
-        if (_logEntries.Count >= MaxLogEntries) // Limit the number of logs to keep memory usage in check
+        if (_logEntries.Count >= MaxLogEntries)
         {
-            _logEntries.RemoveAt(0); // Remove the oldest log entry
+            _logEntries.RemoveAt(0);
         }
 
         var currentTime = DateTime.Now.ToString("HH:mm:ss");
 
         _logEntries.Add($"<b>[ {currentTime} ]  {message}</b>");
 
-        // Scroll to the bottom
+
         _scrollPosition.y = float.MaxValue;
     }
 }

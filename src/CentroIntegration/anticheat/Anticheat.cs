@@ -20,7 +20,7 @@ namespace CentroFeatures.anticheat
 
 		public static readonly Dictionary<RpcCalls, RpcCheck> RpcHandlers = new Dictionary<RpcCalls, RpcCheck>()
 		{
-			// RPC handlers in this dictionary should be sorted by their RPC ID
+
 			{ RpcCalls.PlayAnimation, new PlayAnimation() },
 			{ RpcCalls.CompleteTask, new CompleteTask() },
 			{ RpcCalls.Exiled, new Exiled() },
@@ -100,11 +100,11 @@ namespace CentroFeatures.anticheat
 
 			if(sourceNetObj != rpcCheck.GetExpectedNetObject())
 			{
-				// Received an RPC that should've been sent for a different net object, some sort of exploit attempt?
+
 				return false;
 			}
 
-			// Only we, the host, should be sending host-only RPCs
+
 			if(player != null && AmongUsClient.Instance.AmHost && rpcCheck.IsHostOnly())
 			{
 				Flag(player, $"{player.Data.PlayerName} sent the {rpc} RPC while non-host.");
@@ -115,7 +115,7 @@ namespace CentroFeatures.anticheat
 
 			bool isValid = rpcCheck.Validate(player, reader);
 
-			// Put the read position back to its previous spot to not mess up the HandleRpc function or other patches
+
 			reader.Position = oldReadPosition;
 
 			return isValid || !discardRpc;
@@ -130,7 +130,7 @@ namespace CentroFeatures.anticheat
 
 			bool isValid = gameDataCheck.Validate(reader);
 
-			// Put the read position back to its previous spot
+
 			reader.Position = oldReadPosition;
 
 			return isValid || !discardRpc;
@@ -138,9 +138,9 @@ namespace CentroFeatures.anticheat
 
 		public static void Flag(PlayerControl player, string reason, bool shouldPunish = true)
 		{
-			// Sanity check, make sure that we are not flagging ourselves
-			// On servers without net object impersonation checks, it may be possible to send an invalid RPC on the behalf of the host
-			// which would result in Centro Anticheat flagging ourselves and banning us from our own lobby
+
+
+
 			if(player == PlayerControl.LocalPlayer) return;
 
 			if(sendNotification)
@@ -154,7 +154,7 @@ namespace CentroFeatures.anticheat
 			}
 		}
 
-		// If we do not know which player caused the violation
+
 		public static void Flag(string reason)
 		{
 			if(sendNotification)
@@ -174,18 +174,18 @@ namespace CentroFeatures.anticheat
 				case Punishments.ErrorKick:
 					Centro.Log.LogMessage($"{player.Data.PlayerName} was kicked by Centro Anticheat for hacking");
 
-					// The vanilla anticheat prevents using the ErrorKick method if the game has not started yet
+
 					if(punishment == Punishments.Kick || AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started)
 					{
 						AmongUsClient.Instance.KickPlayer(player.OwnerId, false);
 					}
 					else
 					{
-						// When a game starts, the host waits around ten seconds to wait for all clients to send the ClientReady game message
-						// If the ten-second timer is reached without a ClientReady game message being received by the host, the host will kick the player due to timeout
-						// The kick message shown to the player will explain that the player has a poor internet connection or that their device is too old
-						// and in-game, players will be shown that the player left due to an error instead of being kicked
-						// Any other disconnection messages other than ClientTimeout will result in the vanilla anticheat kicking us from the lobby
+
+
+
+
+
 						AmongUsClient.Instance.SendLateRejection(player.OwnerId, DisconnectReasons.ClientTimeout);
 					}
 					break;
