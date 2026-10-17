@@ -1,4 +1,6 @@
-![Uploading Centromenu_Banner_1920x768.png…]()
+<p align="center">
+  <img src="Centromenu_Banner_1920x768.png" alt="Centromenu - The #1 Trolling Menu" width="100%">
+</p>
 
 
 
