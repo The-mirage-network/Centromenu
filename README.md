@@ -2,6 +2,8 @@
   <img src="Centromenu_Banner_1920x768.png" alt="Centromenu - The #1 Trolling Menu" width="100%">
 </p>
 
+This isnt even fully released yet what ru looking at lol (satire)
+
 
 <p align="center">
   <b>An easy-to-use Among Us mod menu for trolling ur friends or smth with a simple GUI and lots of useful modules.</b>
@@ -21,7 +23,7 @@ Please note that this mod menu is for host only or maybe just to have fun with y
 
 Credits to me (F3LLENCENTRO)
 no one else
-(satire)
+(satire again)
 
 
 
