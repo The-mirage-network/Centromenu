@@ -1,0 +1,153 @@
+using CentroFeatures.modules;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace CentroFeatures.routines
+{
+	// This could be implemented as a postfix patch of CustomNetworkTransform::Deserialize or as a routine
+	// It took me a while, but I concluded that using a routine is a more elegant design choice
+	public class JailPlayerRoutine : Routine
+	{
+		public JailPlayerRoutine() : base("JailPlayer") { }
+
+		public readonly HashSet<int> targets = new HashSet<int>();
+
+		// For the sake of performance, only check if players are outside the jail every 500ms
+		public readonly float DELAY = 0.5f;
+		private float timeElapsed = 0f;
+
+		public bool IsTarget(PlayerControl player)
+		{
+			return player != null && targets.Contains(player.GetHashCode());
+		}
+
+		public void SetTarget(PlayerControl player, bool enabled)
+		{
+			if(player == null) return;
+			bool wasTargeted = IsTarget(player);
+			if(wasTargeted == enabled) return;
+
+			if(enabled)
+				targets.Add(player.GetHashCode());
+			else
+				targets.Remove(player.GetHashCode());
+
+			Enabled = targets.Count > 0;
+
+			// OnEnable can reject the action (for example, while outside a match).
+			// Only announce a jail after the routine remains active and retains the target.
+			if(enabled)
+			{
+				if(Enabled && IsTarget(player))
+					Centro.notifications?.Send("Jail", $"Jailed \"{player.Data.PlayerName}\"!", 5f);
+			}
+			else
+			{
+				Centro.notifications?.Send("Jail", $"Unjailed \"{player.Data.PlayerName}\"!", 5f);
+			}
+		}
+
+		public override void Run()
+		{
+			timeElapsed += Time.deltaTime;
+			if(timeElapsed < DELAY) return;
+			timeElapsed = 0f;
+
+			GetMapData(out SystemTypes jailRoom, out int ventId);
+
+			foreach(PlayerControl player in PlayerControl.AllPlayerControls)
+			{
+				if(!targets.Contains(player.GetHashCode())) continue;
+
+				SystemTypes room = GetRoomForPlayer(player);
+				if(room != jailRoom)
+				{
+					Teleporter.TeleportToVent(player, ventId);
+				}
+			}
+		}
+
+		// The RoomTracker::GetRoomForPlayer function returns a string with the player's current whereabouts
+		// however it will throw an error if you are not the detective and the player not inside a room but rather near it
+		private SystemTypes GetRoomForPlayer(PlayerControl player)
+		{
+			foreach(PlainShipRoom room in ShipStatus.Instance.AllRooms)
+			{
+				if(room.roomArea == null) continue;
+
+				int collisions = room.roomArea.OverlapCollider(HudManager.Instance.roomTracker.filter, HudManager.Instance.roomTracker.detectiveBuffer);
+				if(RoomTracker.CheckHitsForPlayer(HudManager.Instance.roomTracker.detectiveBuffer, collisions, player))
+				{
+					return room.RoomId;
+				}
+			}
+
+			return (SystemTypes)255;
+		}
+
+		private void GetMapData(out SystemTypes room, out int ventId)
+		{
+			MapNames currentMap = Utilities.GetCurrentMap();
+
+			switch(currentMap)
+			{
+				case MapNames.Skeld:
+				case MapNames.Dleks:
+					room = SystemTypes.Nav;
+					ventId = 12;
+					break;
+
+				case MapNames.MiraHQ:
+					room = SystemTypes.Decontamination;
+					ventId = 9;
+					break;
+
+				case MapNames.Polus:
+					room = SystemTypes.Storage;
+					ventId = 8;
+					break;
+
+				case MapNames.Airship:
+					room = SystemTypes.GapRoom;
+					ventId = 7;
+					break;
+
+				case MapNames.Fungle:
+					room = SystemTypes.Laboratory;
+					ventId = 4;
+					break;
+
+				// Default to the Skeld values
+				default:
+					room = SystemTypes.Nav;
+					ventId = 12;
+					break;
+			}
+		}
+
+		private void OnDisconnect()
+		{
+			Centro.notifications.Send("Jail Player", "Jail Player has been disabled as you left the game.", 10);
+			Enabled = false;
+		}
+
+		protected override void OnEnable()
+		{
+			if(PlayerControl.LocalPlayer == null || ShipStatus.Instance == null)
+			{
+				Centro.notifications.Send("Jail Player", "Jail Player can only be used inside of a game.", 10);
+				Enabled = false;
+				return;
+			}
+
+			EventCoordinator.OnDisconnect += OnDisconnect;
+		}
+
+		protected override void OnDisable()
+		{
+			targets.Clear();
+
+			EventCoordinator.OnDisconnect -= OnDisconnect;
+		}
+	}
+}
