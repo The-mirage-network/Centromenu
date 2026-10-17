@@ -1,4 +1,5 @@
-<img width="1254" height="1254" alt="Centromenu Neon Orbit Logo" src="https://github.com/user-attachments/assets/f9f559a8-345e-4e67-811f-35a16e6dd189" />
+![Uploading Centromenu_Banner_1920x768.png…]()
+
 
 
 <p align="center">
