@@ -25,4 +25,4 @@
 ---------------------------------------------------------------------------
 * Unlock every Cosmetic for free
 ---------------------------------------------------------------------------
-* 
+* Notifications and a API (that you can possibly use in your mod menu)
