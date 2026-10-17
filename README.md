@@ -7,8 +7,6 @@
   <b>An easy-to-use Among Us cheat menu with a simple GUI and lots of useful modules.</b>
 </p>
 
-# Caution
-
 [!CAUTION]
 Please note that this mod menu is for host only or maybe just to have fun with your friends in a private lobby or educational purposes to study game mechanics And the developers are not responsible for any Damages that affected your Among us account in any way. if you accidentally join a public lobby. you can use panic mode by doing Ctrl + F1.
 
