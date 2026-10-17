@@ -1,24 +1,4 @@
-<p align="center">
-  <img src="https://scp222thj.dev/static/images/centromenuLogo.png">
-</p>
 
-<p align="center">
-  <a href="https://discord.gg/YYcYf88jAb">
-    <img hspace="6" src="https://img.shields.io/badge/Join%20Us%20on-Discord-blue?style=flat&logo=discord" alt="Discord">
-  </a>
-
-  <a href="https://ko-fi.com/scp222thj">
-    <img hspace="6" src="https://img.shields.io/badge/Support%20scp222thj-Ko--fi-ff5f5f?style=flat&logo=ko-fi" alt="Ko-fi">
-  </a>
-
-  <a href="https://github.com/astra1dev#%EF%B8%8F-support-me">
-    <img hspace="6" src="https://img.shields.io/badge/Support%20astra1dev-Monero-FF6600?style=flat&logo=monero" alt="Monero">
-  </a>
-
-  <a href="https://github.com/scp222thj/Centromenu/releases">
-    <img hspace="6" src="https://img.shields.io/github/downloads/scp222thj/Centromenu/total?style=flat&logo=github&label=Total%20Downloads&color=2ECC71" alt="Downloads">
-  </a>
-</p>
 
 <p align="center">
   <b>An easy-to-use Among Us cheat menu with a simple GUI and lots of useful modules.</b>
