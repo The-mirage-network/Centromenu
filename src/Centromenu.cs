@@ -6,7 +6,6 @@ using System;
 using UnityEngine;
 using UnityEngine.Analytics;
 using System.Collections.Generic;
-using System.Reflection;
 using BepInEx.Configuration;
 using BepInEx.Logging;
 using HarmonyLib;
@@ -33,7 +32,6 @@ public partial class Centromenu : BasePlugin
     public static ModDetectorUI modDetectorUI;
     public static KeybindListener keybindListener;
     public static CentroAPI centroAPI;
-    public static MeetingMusicPlayer meetingMusicPlayer;
 
     public static string centromenuVersion = "3.3.1";
     public static List<string> supportedAU = new List<string> { "2026.9.29" };
@@ -62,15 +60,10 @@ public partial class Centromenu : BasePlugin
     public static ConfigEntry<float> defaultCooldown;
     public static ConfigEntry<int> killSwitchLvl;
 
-    private static Assembly _embeddedNLayer;
-
     public override void Load()
     {
         Log = base.Log;
         Plugin = this;
-        AppDomain.CurrentDomain.AssemblyResolve += ResolveEmbeddedDependency;
-
-
         menuKeybind = Config.Bind("Centromenu.GUI",
                                 "Keybind",
                                 "Delete",
@@ -223,9 +216,6 @@ public partial class Centromenu : BasePlugin
 
         keybindListener = AddComponent<KeybindListener>();
         centroAPI = AddComponent<CentroAPI>();
-        meetingMusicPlayer = AddComponent<MeetingMusicPlayer>();
-
-
         Centro.Initialize(this);
 
 
@@ -261,18 +251,4 @@ public partial class Centromenu : BasePlugin
         }));
     }
 
-    private static Assembly ResolveEmbeddedDependency(object sender, ResolveEventArgs args)
-    {
-        if (new AssemblyName(args.Name).Name != "NLayer") return null;
-        if (_embeddedNLayer != null) return _embeddedNLayer;
-
-        using Stream stream = Assembly.GetExecutingAssembly()
-            .GetManifestResourceStream("Centromenu.Dependencies.NLayer.dll");
-        if (stream == null) return null;
-
-        using var buffer = new MemoryStream();
-        stream.CopyTo(buffer);
-        _embeddedNLayer = Assembly.Load(buffer.ToArray());
-        return _embeddedNLayer;
-    }
 }

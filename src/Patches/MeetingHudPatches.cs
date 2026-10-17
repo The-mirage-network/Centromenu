@@ -5,24 +5,6 @@ using Object = UnityEngine.Object;
 
 namespace Centromenu;
 
-[HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
-public static class MeetingHud_Start
-{
-    public static void Postfix()
-    {
-        Centromenu.meetingMusicPlayer?.StartMeetingMusic();
-    }
-}
-
-[HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Close))]
-public static class MeetingHud_CloseMusic
-{
-    public static void Prefix()
-    {
-        Centromenu.meetingMusicPlayer?.StopMeetingMusic();
-    }
-}
-
 [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Update))]
 public static class MeetingHud_Update
 {
